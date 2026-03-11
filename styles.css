@@ -1472,3 +1472,144 @@ img {
     display: none;
 }
 
+/* ========================================
+   Responsive All Hostels
+======================================== */
+
+/* ========================================
+   Landlord Dashboard Styles
+======================================== */
+
+.dashboard-layout {
+    display: flex;
+    min-height: 100vh;
+}
+
+.dashboard-sidebar {
+    width: 260px;
+    background: var(--white);
+    border-right: 1px solid var(--gray-200);
+    position: fixed;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    z-index: 100;
+    transition: var(--transition);
+}
+
+.dashboard-sidebar-header {
+    padding: 20px;
+    border-bottom: 1px solid var(--gray-200);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.dashboard-sidebar-header .logo {
+    font-size: 20px;
+}
+
+.landlord-badge-small {
+    background: var(--primary-color);
+    color: var(--white);
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 600;
+}
+
+.dashboard-sidebar-nav {
+    flex: 1;
+    overflow-y: auto;
+    padding: 20px 0;
+}
+
+.dashboard-nav-section {
+    margin-bottom: 25px;
+}
+
+.dashboard-nav-section-title {
+    display: block;
+    padding: 0 20px;
+    margin-bottom: 10px;
+    font-size: 11px;
+    text-transform: uppercase;
+    color: var(--gray-400);
+    font-weight: 600;
+    letter-spacing: 1px;
+}
+
+.dashboard-nav-item {
+    display: flex;
+    align-items: center;
+    padding: 12px 20px;
+    color: var(--gray-600);
+    transition: var(--transition);
+    gap: 12px;
+    position: relative;
+    cursor: pointer;
+}
+
+.dashboard-nav-item:hover {
+    background: var(--light-gray);
+    color: var(--primary-color);
+}
+
+.dashboard-nav-item.active {
+    background: rgba(26, 54, 93, 0.1);
+    color: var(--primary-color);
+    font-weight: 500;
+}
+
+.dashboard-nav-item.active::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 3px;
+    background: var(--primary-color);
+}
+
+.dashboard-nav-item .badge {
+    margin-left: auto;
+    background: var(--secondary-color);
+    color: var(--white);
+    padding: 2px 8px;
+    border-radius: 10px;
+    font-size: 11px;
+    font-weight: 600;
+}
+
+.dashboard-sidebar-footer {
+    padding: 20px;
+    border-top: 1px solid var(--gray-200);
+}
+
+.dashboard-logout-btn {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: var(--gray-600);
+    padding: 12px;
+    border-radius: 8px;
+    transition: var(--transition);
+    text-decoration: none;
+}
+
+.dashboard-logout-btn:hover {
+    background: var(--light-gray);
+    color: var(--secondary-color);
+}
+
+/* Dashboard Responsive */
+@media (max-width: 992px) {
+    .dashboard-sidebar {
+        transform: translateX(-100%);
+    }
+    
+    .dashboard-sidebar.active {
+        transform: translateX(0);
+    }
+}
+

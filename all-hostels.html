@@ -1,0 +1,814 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>All Hostels - Easy Hostel</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="all-hostels.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container">
+            <a href="index.html" class="logo">
+                <i class="fas fa-home"></i> Easy<span>Hostel</span>
+            </a>
+            <ul class="nav-links">
+                <li><a href="index.html#home">Home</a></li>
+                <li><a href="index.html#hostels">Hostels</a></li>
+                <li><a href="all-hostels.html" class="active">All Hostels</a></li>
+                <li><a href="index.html#how-it-works">How It Works</a></li>
+                <li><a href="index.html#why-us">Why Us</a></li>
+                <li><a href="index.html#contact">Contact</a></li>
+            </ul>
+            <button class="landlord-btn" onclick="openLandlordModal()">
+                <i class="fas fa-plus"></i> List Your Property
+            </button>
+            <div class="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Page Header -->
+    <section class="page-header">
+        <div class="container">
+            <h1>All Available Hostels</h1>
+            <p>Browse through our complete collection of verified student accommodations</p>
+            <div class="breadcrumb">
+                <a href="index.html">Home</a>
+                <i class="fas fa-chevron-right"></i>
+                <span>All Hostels</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- All Hostels Section -->
+    <section class="all-hostels-section">
+        <div class="container">
+            <!-- Search and Filter Bar -->
+            <div class="search-filter-bar">
+                <div class="search-box-main">
+                    <i class="fas fa-search"></i>
+                    <input type="text" id="searchInput" placeholder="Search by name, university, or location..." oninput="filterHostels()">
+                </div>
+                
+                <div class="filters-row">
+                    <select id="priceFilter" onchange="filterHostels()">
+                        <option value="">Price Range</option>
+                        <option value="0-200000">Under ₦200k</option>
+                        <option value="200000-350000">₦200k - ₦350k</option>
+                        <option value="350000-500000">₦350k - ₦500k</option>
+                        <option value="500000-800000">₦500k - ₦800k</option>
+                        <option value="800000+">₦800k+</option>
+                    </select>
+                    
+                    <select id="roomTypeFilter" onchange="filterHostels()">
+                        <option value="">Room Type</option>
+                        <option value="single">Single Room</option>
+                        <option value="shared">Shared Room</option>
+                        <option value="self-contain">Self-Contain</option>
+                        <option value="apartment">Apartment</option>
+                    </select>
+                    
+                    <select id="universityFilter" onchange="filterHostels()">
+                        <option value="">University</option>
+                        <option value="ui">University of Ibadan</option>
+                        <option value="unilag">UNILAG</option>
+                        <option value="oau">OAU Ile-Ife</option>
+                        <option value="uniben">UNIBEN</option>
+                        <option value="abu">ABU Zaria</option>
+                        <option value="lasu">LASU</option>
+                        <option value="unn">UNN</option>
+                        <option value="uniabuja">University of Abuja</option>
+                    </select>
+                    
+                    <select id="distanceFilter" onchange="filterHostels()">
+                        <option value="">Distance</option>
+                        <option value="0-1">0-1 km</option>
+                        <option value="1-2">1-2 km</option>
+                        <option value="2-5">2-5 km</option>
+                        <option value="5+">5+ km</option>
+                    </select>
+                    
+                    <button class="btn-clear" onclick="clearFilters()">
+                        <i class="fas fa-times"></i> Clear
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Results Info -->
+            <div class="results-info">
+                <span id="resultsCount">Showing 12 hostels</span>
+                <div class="sort-options">
+                    <label>Sort by:</label>
+                    <select id="sortFilter" onchange="sortHostels()">
+                        <option value="">Recommended</option>
+                        <option value="price-low">Price: Low to High</option>
+                        <option value="price-high">Price: High to Low</option>
+                        <option value="distance">Distance: Nearest</option>
+                    </select>
+                </div>
+            </div>
+            
+            <!-- Hostel Grid -->
+            <div class="hostel-grid" id="hostelGrid">
+                <!-- Hostels will be rendered by JavaScript -->
+            </div>
+            
+            <!-- No Results Message -->
+            <div class="no-results" id="noResults" style="display: none;">
+                <i class="fas fa-search"></i>
+                <h3>No hostels found</h3>
+                <p>Try adjusting your filters or search criteria</p>
+                <button class="btn-secondary" onclick="clearFilters()">Clear Filters</button>
+            </div>
+            
+            <!-- Load More Button -->
+            <div class="load-more-container" id="loadMoreContainer">
+                <button class="btn-load-more" onclick="loadMoreHostels()">
+                    <i class="fas fa-plus"></i> Load More Hostels
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section">
+        <div class="container">
+            <div class="cta-content">
+                <h2>Can't Find What You're Looking For?</h2>
+                <p>List your property with us and help students find their perfect accommodation</p>
+                <div class="cta-buttons">
+                    <button class="btn-cta-primary" onclick="openLandlordModal()">
+                        <i class="fas fa-building"></i> List Your Property
+                    </button>
+                    <a href="index.html#hostels" class="btn-cta-secondary">
+                        <i class="fas fa-arrow-left"></i> Back to Home
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>Easy Hostel</h4>
+                    <p>Your trusted partner in finding the perfect student accommodation near campus.</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-linkedin"></i></a>
+                    </div>
+                </div>
+                
+                <div class="footer-section">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="index.html#home">Home</a></li>
+                        <li><a href="all-hostels.html">All Hostels</a></li>
+                        <li><a href="index.html#how-it-works">How It Works</a></li>
+                        <li><a href="index.html#why-us">Why Us</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h4>For Landlords</h4>
+                    <ul>
+                        <li><a href="#" onclick="openLandlordModal()">List Your Property</a></li>
+                        <li><a href="#">Advertise With Us</a></li>
+                        <li><a href="#">Landlord Dashboard</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h4>Contact Us</h4>
+                    <ul>
+                        <li><i class="fas fa-phone"></i> +234 800 123 4567</li>
+                        <li><i class="fas fa-envelope"></i> info@easyhostel.com</li>
+                        <li><i class="fas fa-map-marker-alt"></i> Lagos, Nigeria</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2025 Easy Hostel. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Hostel Details Modal -->
+    <div id="hostelModal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal" onclick="closeHostelModal()">&times;</span>
+            <div id="modalBody">
+                <!-- Dynamic content will be loaded here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Landlord Listing Form Modal -->
+    <div id="landlordModal" class="modal">
+        <div class="modal-content modal-large">
+            <span class="close-modal" onclick="closeLandlordModal()">&times;</span>
+            <div class="modal-header">
+                <h2>List Your Property</h2>
+                <p>Fill in the details to list your hostel on Easy Hostel</p>
+            </div>
+            <form id="landlordForm" onsubmit="submitLandlordForm(event)">
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label for="propertyName">Property Name *</label>
+                        <input type="text" id="propertyName" name="propertyName" required placeholder="e.g., Royal Nest Hostel">
+                    </div>
+                    <div class="form-group">
+                        <label for="propertyType">Property Type *</label>
+                        <select id="propertyType" name="propertyType" required>
+                            <option value="">Select Type</option>
+                            <option value="single">Single Room</option>
+                            <option value="shared">Shared Room</option>
+                            <option value="self-contain">Self-Contain</option>
+                            <option value="apartment">Apartment</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="university">Nearest University *</label>
+                        <select id="university" name="university" required>
+                            <option value="">Select University</option>
+                            <option value="ui">University of Ibadan</option>
+                            <option value="unilag">UNILAG</option>
+                            <option value="oau">OAU Ile-Ife</option>
+                            <option value="uniben">UNIBEN</option>
+                            <option value="abu">ABU Zaria</option>
+                            <option value="lasu">LASU</option>
+                            <option value="unn">UNN</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="distance">Distance from Campus (km) *</label>
+                        <input type="number" id="distance" name="distance" step="0.1" required placeholder="e.g., 1.5">
+                    </div>
+                    <div class="form-group">
+                        <label for="price">Price per Year (₦) *</label>
+                        <input type="number" id="price" name="price" required placeholder="e.g., 350000">
+                    </div>
+                    <div class="form-group">
+                        <label for="rooms">Number of Rooms</label>
+                        <input type="number" id="rooms" name="rooms" placeholder="e.g., 20">
+                    </div>
+                    <div class="form-group">
+                        <label for="ownerName">Your Name *</label>
+                        <input type="text" id="ownerName" name="ownerName" required placeholder="Your full name">
+                    </div>
+                    <div class="form-group">
+                        <label for="phone">Phone Number *</label>
+                        <input type="tel" id="phone" name="phone" required placeholder="e.g., +2348012345678">
+                    </div>
+                    <div class="form-group full-width">
+                        <label for="address">Full Address *</label>
+                        <textarea id="address" name="address" rows="3" required placeholder="Enter complete address"></textarea>
+                    </div>
+                    <div class="form-group full-width">
+                        <label for="amenities">Amenities (select all that apply)</label>
+                        <div class="checkbox-group">
+                            <label><input type="checkbox" name="amenities" value="wifi"> WiFi</label>
+                            <label><input type="checkbox" name="amenities" value="light"> 24/7 Light</label>
+                            <label><input type="checkbox" name="amenities" value="water"> Water</label>
+                            <label><input type="checkbox" name="amenities" value="security"> Security</label>
+                            <label><input type="checkbox" name="amenities" value="parking"> Parking</label>
+                            <label><input type="checkbox" name="amenities" value="kitchen"> Kitchen</label>
+                            <label><input type="checkbox" name="amenities" value="laundry"> Laundry</label>
+                            <label><input type="checkbox" name="amenities" value="ac"> AC Ready</label>
+                        </div>
+                    </div>
+                    <div class="form-group full-width">
+                        <label for="description">Property Description</label>
+                        <textarea id="description" name="description" rows="4" placeholder="Describe your property..."></textarea>
+                    </div>
+                </div>
+                <button type="submit" class="btn-submit">Submit Listing</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Success Message -->
+    <div id="successMessage" class="success-message">
+        <i class="fas fa-check-circle"></i>
+        <span id="successText">Success!</span>
+    </div>
+
+    <script src="script.js"></script>
+    <script>
+        // Extended hostel data for all-hostels page
+        const allHostelsData = [
+            {
+                id: 1,
+                name: "Royal Nest Hostel",
+                location: "UI Road, Opp. University of Ibadan",
+                university: "ui",
+                universityName: "University of Ibadan",
+                price: 350000,
+                distance: 0.5,
+                type: "self-contain",
+                features: ["WiFi", "24/7 Light", "Security", "Parking"],
+                roomSize: "12x14 ft",
+                description: "Modern self-contain rooms with premium amenities, located just 0.5km from UI main gate. Perfect for students who want comfort and convenience.",
+                phone: "+2348012345678",
+                image: "https://images.unsplash.com/photo-1555854877-bab0e564b8d5?w=400&h=300&fit=crop",
+                verified: true,
+                featured: true
+            },
+            {
+                id: 2,
+                name: "Student Haven",
+                location: "Akoka Road, UNILAG",
+                university: "unilag",
+                universityName: "University of Lagos",
+                price: 280000,
+                distance: 1.2,
+                type: "shared",
+                features: ["24/7 Light", "Kitchen", "Security"],
+                roomSize: "10x12 ft",
+                description: "Affordable shared accommodation for UNILAG students. Clean, safe, and close to campus.",
+                phone: "+2348012345679",
+                image: "https://images.unsplash.com/photo-1522771739844-6a9f6d5f14af?w=400&h=300&fit=crop",
+                verified: true,
+                featured: false
+            },
+            {
+                id: 3,
+                name: "Scholar's Lodge",
+                location: "Bodija, Oyewole Estate",
+                university: "ui",
+                universityName: "University of Ibadan",
+                price: 450000,
+                distance: 0.8,
+                type: "single",
+                features: ["AC Ready", "WiFi", "24/7 Light", "Hot Water"],
+                roomSize: "14x16 ft",
+                description: "Premium single rooms with air conditioning infrastructure. Study-friendly environment with consistent power supply.",
+                phone: "+2348012345680",
+                image: "https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=400&h=300&fit=crop",
+                verified: true,
+                featured: true
+            },
+            {
+                id: 4,
+                name: "Campus View Apartments",
+                location: "Gwagwalada, Abuja",
+                university: "uniabuja",
+                universityName: "University of Abuja",
+                price: 320000,
+                distance: 2.0,
+                type: "self-contain",
+                features: ["Parking", "Security", "WiFi", "Water"],
+                roomSize: "12x12 ft",
+                description: "Spacious self-contain apartments in peaceful Gwagwalada area. Great for UniAbuja students.",
+                phone: "+2348012345681",
+                image: "https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?w=400&h=300&fit=crop",
+                verified: true,
+                featured: false
+            },
+            {
+                id: 5,
+                name: "Budget Stay Hostel",
+                location: "Ojo, Lagos State University",
+                university: "lasu",
+                universityName: "Lagos State University",
+                price: 200000,
+                distance: 3.5,
+                type: "shared",
+                features: ["Kitchen", "Security", "Laundry"],
+                roomSize: "8x10 ft",
+                description: "Most affordable option for LASU students. Clean shared rooms with basic amenities.",
+                phone: "+2348012345682",
+                image: "https://images.unsplash.com/photo-1536376072261-38c75010e6c9?w=400&h=300&fit=crop",
+                verified: true,
+                featured: false
+            },
+            {
+                id: 6,
+                name: "Premier Student Suites",
+                location: "Zaria Road, ABU Zaria",
+                university: "abu",
+                universityName: "Ahmadu Bello University",
+                price: 550000,
+                distance: 0.3,
+                type: "apartment",
+                features: ["Hot Water", "WiFi", "24/7 Light", "Security", "AC"],
+                roomSize: "16x18 ft",
+                description: "Luxury 2-bedroom apartments just 300m from ABU main campus. Premium amenities for serious students.",
+                phone: "+2348012345683",
+                image: "https://images.unsplash.com/photo-1493809842364-78817add7ffb?w=400&h=300&fit=crop",
+                verified: true,
+                featured: true
+            },
+            {
+                id: 7,
+                name: "Golden Age Hostel",
+                location: "Moore Road, OAU",
+                university: "oau",
+                universityName: "Obafemi Awolowo University",
+                price: 380000,
+                distance: 1.0,
+                type: "self-contain",
+                features: ["WiFi", "24/7 Light", "Security", "Water"],
+                roomSize: "13x13 ft",
+                description: "Excellent self-contain rooms near OAU campus. Great environment for studying.",
+                phone: "+2348012345684",
+                image: "https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?w=400&h=300&fit=crop",
+                verified: true,
+                featured: false
+            },
+            {
+                id: 8,
+                name: "Unity Hall Annex",
+                location: "Ugbowo, Benin City",
+                university: "uniben",
+                universityName: "University of Benin",
+                price: 250000,
+                distance: 2.5,
+                type: "shared",
+                features: ["24/7 Light", "Security", "Kitchen"],
+                roomSize: "10x10 ft",
+                description: "Affordable accommodation for UNIBEN students. Walking distance to campus.",
+                phone: "+2348012345685",
+                image: "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=400&h=300&fit=crop",
+                verified: true,
+                featured: false
+            },
+            {
+                id: 9,
+                name: "Success Tower",
+                location: "Nnamdi Azikiwe Avenue, UNN",
+                university: "unn",
+                universityName: "University of Nigeria Nsukka",
+                price: 420000,
+                distance: 0.6,
+                type: "single",
+                features: ["WiFi", "24/7 Light", "Hot Water", "Security"],
+                roomSize: "15x15 ft",
+                description: "Modern single rooms in the heart of UNN campus area. Premium facilities.",
+                phone: "+2348012345686",
+                image: "https://images.unsplash.com/photo-1484154218962-a197022b5858?w=400&h=300&fit=crop",
+                verified: true,
+                featured: true
+            },
+            {
+                id: 10,
+                name: "Eco-Friendly Living",
+                location: "Ikeja, Lagos",
+                university: "unilag",
+                universityName: "University of Lagos",
+                price: 480000,
+                distance: 8.0,
+                type: "apartment",
+                features: ["Solar Power", "WiFi", "Security", "Parking", "Garden"],
+                roomSize: "18x20 ft",
+                description: "Eco-friendly apartment with solar power. Great for environmentally conscious students.",
+                phone: "+2348012345687",
+                image: "https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?w=400&h=300&fit=crop",
+                verified: true,
+                featured: false
+            },
+            {
+                id: 11,
+                name: "Peaceful Retreat",
+                location: "Ring Road, Ibadan",
+                university: "ui",
+                universityName: "University of Ibadan",
+                price: 300000,
+                distance: 4.0,
+                type: "self-contain",
+                features: ["24/7 Light", "Security", "Parking"],
+                roomSize: "11x13 ft",
+                description: "Peaceful environment away from campus noise. Great for focused studying.",
+                phone: "+2348012345688",
+                image: "https://images.unsplash.com/photo-1493809842364-78817add7ffb?w=400&h=300&fit=crop",
+                verified: true,
+                featured: false
+            },
+            {
+                id: 12,
+                name: "Metro Student Complex",
+                location: "Gwagwalada Phase 2, Abuja",
+                university: "uniabuja",
+                universityName: "University of Abuja",
+                price: 290000,
+                distance: 3.0,
+                type: "shared",
+                features: ["WiFi", "24/7 Light", "Security", "Laundry"],
+                roomSize: "12x12 ft",
+                description: "Modern shared rooms with excellent facilities. Popular among UniAbuja students.",
+                phone: "+2348012345689",
+                image: "https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?w=400&h=300&fit=crop",
+                verified: true,
+                featured: false
+            }
+        ];
+
+        // Pagination variables
+        let displayedHostels = 6;
+        const hostelsPerPage = 6;
+
+        // Render hostel cards
+        function renderHostels(hostels) {
+            const hostelGrid = document.getElementById('hostelGrid');
+            const noResults = document.getElementById('noResults');
+            
+            if (hostels.length === 0) {
+                hostelGrid.innerHTML = '';
+                noResults.style.display = 'block';
+                document.getElementById('loadMoreContainer').style.display = 'none';
+                document.getElementById('resultsCount').textContent = 'Showing 0 hostels';
+                return;
+            }
+            
+            noResults.style.display = 'none';
+            document.getElementById('loadMoreContainer').style.display = hostels.length > displayedHostels ? 'block' : 'none';
+            
+            const hostelsToShow = hostels.slice(0, displayedHostels);
+            
+            hostelGrid.innerHTML = hostelsToShow.map((hostel, index) => `
+                <div class="hostel-card" 
+                     data-price="${hostel.price}" 
+                     data-distance="${hostel.distance}" 
+                     data-type="${hostel.type}"
+                     data-university="${hostel.university}"
+                     data-name="${hostel.name.toLowerCase()}"
+                     data-location="${hostel.location.toLowerCase()}"
+                     style="animation-delay: ${index * 0.1}s">
+                    <div class="hostel-image">
+                        <img src="${hostel.image}" alt="${hostel.name}">
+                        ${hostel.verified ? '<span class="verified-badge"><i class="fas fa-check-circle"></i> Verified</span>' : ''}
+                        ${hostel.featured ? '<span class="featured-tag">Featured</span>' : ''}
+                    </div>
+                    <div class="hostel-info">
+                        <h3>${hostel.name}</h3>
+                        <p class="location"><i class="fas fa-map-marker-alt"></i> ${hostel.location}</p>
+                        <p class="university-tag"><i class="fas fa-university"></i> ${hostel.universityName}</p>
+                        <div class="hostel-features">
+                            <span><i class="fas fa-bed"></i> ${formatRoomType(hostel.type)}</span>
+                            <span><i class="fas fa-ruler-combined"></i> ${hostel.roomSize}</span>
+                            ${hostel.features.includes('WiFi') ? '<span><i class="fas fa-wifi"></i> WiFi</span>' : ''}
+                        </div>
+                        <div class="hostel-price">
+                            <span class="price">₦${hostel.price.toLocaleString()}</span>
+                            <span class="per-year">/year</span>
+                            <span class="distance"><i class="fas fa-location-arrow"></i> ${hostel.distance} km to campus</span>
+                        </div>
+                        <div class="hostel-actions">
+                            <button class="btn-primary" onclick="openHostelModalAll(${hostel.id})">View Details</button>
+                            <div class="contact-btns">
+                                <a href="tel:${hostel.phone}" class="btn-call"><i class="fas fa-phone"></i></a>
+                                <a href="https://wa.me/${hostel.phone.replace(/\D/g, '')}" class="btn-whatsapp" target="_blank"><i class="fab fa-whatsapp"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+            
+            document.getElementById('resultsCount').textContent = `Showing ${Math.min(displayedHostels, hostels.length)} of ${hostels.length} hostels`;
+        }
+
+        // Format room type
+        function formatRoomType(type) {
+            const types = {
+                'single': 'Single Room',
+                'shared': 'Shared Room',
+                'self-contain': 'Self-Contain',
+                'apartment': 'Apartment'
+            };
+            return types[type] || type;
+        }
+
+        // Open hostel modal (for all-hostels page)
+        function openHostelModalAll(hostelId) {
+            const hostel = allHostelsData.find(h => h.id === hostelId);
+            
+            if (!hostel) return;
+            
+            const modalBody = document.getElementById('modalBody');
+            
+            modalBody.innerHTML = `
+                <img src="${hostel.image}" alt="${hostel.name}" class="modal-hostel-image">
+                
+                <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 15px;">
+                    <h3>${hostel.name}</h3>
+                    ${hostel.verified ? '<span class="verified-badge"><i class="fas fa-check-circle"></i> Verified</span>' : ''}
+                </div>
+                
+                <p class="modal-location">
+                    <i class="fas fa-map-marker-alt"></i> ${hostel.location}
+                </p>
+                
+                <div class="modal-details">
+                    <div class="modal-detail-item">
+                        <i class="fas fa-bed"></i>
+                        <span>${formatRoomType(hostel.type)}</span>
+                    </div>
+                    <div class="modal-detail-item">
+                        <i class="fas fa-ruler-combined"></i>
+                        <span>${hostel.roomSize}</span>
+                    </div>
+                    <div class="modal-detail-item">
+                        <i class="fas fa-location-arrow"></i>
+                        <span>${hostel.distance} km to campus</span>
+                    </div>
+                    <div class="modal-detail-item">
+                        <i class="fas fa-money-bill-wave"></i>
+                        <span>₦${hostel.price.toLocaleString()}/year</span>
+                    </div>
+                </div>
+                
+                <div class="modal-description">
+                    <h4>Amenities</h4>
+                    <div class="hostel-features" style="margin-top: 10px;">
+                        ${hostel.features.map(f => `
+                            <span><i class="fas fa-check"></i> ${f}</span>
+                        `).join('')}
+                    </div>
+                </div>
+                
+                <div class="modal-description">
+                    <h4>Description</h4>
+                    <p>${hostel.description}</p>
+                </div>
+                
+                <div class="modal-contact">
+                    <button class="btn-primary" onclick="alert('Booking feature coming soon!')">
+                        <i class="fas fa-calendar-check"></i> Book Now
+                    </button>
+                    <div class="contact-btns">
+                        <a href="tel:${hostel.phone}" class="btn-call"><i class="fas fa-phone"></i></a>
+                        <a href="https://wa.me/${hostel.phone.replace(/\D/g, '')}" class="btn-whatsapp" target="_blank">
+                            <i class="fab fa-whatsapp"></i>
+                        </a>
+                    </div>
+                </div>
+            `;
+            
+            const hostelModal = document.getElementById('hostelModal');
+            hostelModal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        // Filter hostels
+        function filterHostels() {
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase().trim();
+            const priceRange = document.getElementById('priceFilter').value;
+            const roomType = document.getElementById('roomTypeFilter').value;
+            const university = document.getElementById('universityFilter').value;
+            const distance = document.getElementById('distanceFilter').value;
+            
+            let filtered = allHostelsData.filter(hostel => {
+                // Search filter
+                const matchesSearch = searchTerm === '' || 
+                    hostel.name.toLowerCase().includes(searchTerm) ||
+                    hostel.location.toLowerCase().includes(searchTerm) ||
+                    hostel.universityName.toLowerCase().includes(searchTerm);
+                
+                // Price filter
+                let matchesPrice = true;
+                if (priceRange) {
+                    if (priceRange === '800000+') {
+                        matchesPrice = hostel.price >= 800000;
+                    } else {
+                        const [min, max] = priceRange.split('-').map(Number);
+                        matchesPrice = hostel.price >= min && hostel.price <= max;
+                    }
+                }
+                
+                // Room type filter
+                let matchesType = true;
+                if (roomType) {
+                    matchesType = hostel.type === roomType;
+                }
+                
+                // University filter
+                let matchesUniversity = true;
+                if (university) {
+                    matchesUniversity = hostel.university === university;
+                }
+                
+                // Distance filter
+                let matchesDistance = true;
+                if (distance) {
+                    if (distance === '5+') {
+                        matchesDistance = hostel.distance >= 5;
+                    } else {
+                        const [min, max] = distance.split('-').map(Number);
+                        matchesDistance = hostel.distance >= min && hostel.distance <= max;
+                    }
+                }
+                
+                return matchesSearch && matchesPrice && matchesType && matchesUniversity && matchesDistance;
+            });
+            
+            // Apply sorting
+            const sortBy = document.getElementById('sortFilter').value;
+            if (sortBy) {
+                filtered.sort((a, b) => {
+                    switch(sortBy) {
+                        case 'price-low':
+                            return a.price - b.price;
+                        case 'price-high':
+                            return b.price - a.price;
+                        case 'distance':
+                            return a.distance - b.distance;
+                        default:
+                            return 0;
+                    }
+                });
+            }
+            
+            displayedHostels = 6;
+            renderHostels(filtered);
+        }
+
+        // Clear all filters
+        function clearFilters() {
+            document.getElementById('searchInput').value = '';
+            document.getElementById('priceFilter').value = '';
+            document.getElementById('roomTypeFilter').value = '';
+            document.getElementById('universityFilter').value = '';
+            document.getElementById('distanceFilter').value = '';
+            document.getElementById('sortFilter').value = '';
+            
+            displayedHostels = 6;
+            renderHostels(allHostelsData);
+        }
+
+        // Sort hostels
+        function sortHostels() {
+            filterHostels();
+        }
+
+        // Load more hostels
+        function loadMoreHostels() {
+            displayedHostels += hostelsPerPage;
+            filterHostels();
+        }
+
+        // Initialize page
+        document.addEventListener('DOMContentLoaded', () => {
+            renderHostels(allHostelsData);
+            
+            // Navbar scroll effect
+            window.addEventListener('scroll', () => {
+                const navbar = document.querySelector('.navbar');
+                if (window.scrollY > 50) {
+                    navbar.classList.add('scrolled');
+                } else {
+                    navbar.classList.remove('scrolled');
+                }
+            });
+            
+            // Mobile menu
+            const hamburger = document.querySelector('.hamburger');
+            if (hamburger) {
+                hamburger.addEventListener('click', () => {
+                    hamburger.classList.toggle('active');
+                    const mobileMenu = document.querySelector('.mobile-menu');
+                    if (mobileMenu) {
+                        mobileMenu.classList.toggle('active');
+                    }
+                });
+            }
+            
+            // Modal close on escape
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape') {
+                    closeHostelModal();
+                    closeLandlordModal();
+                }
+            });
+            
+            // Modal close on outside click
+            const hostelModal = document.getElementById('hostelModal');
+            const landlordModal = document.getElementById('landlordModal');
+            
+            hostelModal.addEventListener('click', (e) => {
+                if (e.target === hostelModal) closeHostelModal();
+            });
+            
+            landlordModal.addEventListener('click', (e) => {
+                if (e.target === landlordModal) closeLandlordModal();
+            });
+        });
+    </script>
+</body>
+</html>
+
