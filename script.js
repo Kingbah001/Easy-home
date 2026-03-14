@@ -420,6 +420,7 @@ if (hamburger) {
                     <li><a href="#how-it-works" onclick="closeMobileMenu()">How It Works</a></li>
                     <li><a href="#why-us" onclick="closeMobileMenu()">Why Us</a></li>
                     <li><a href="#contact" onclick="closeMobileMenu()">Contact</a></li>
+                    <li><a href="landlord-dashboard.html" class="dashboard-link">Dashboard</a></li>
                 </ul>
             `;
             navbar.querySelector('.container').appendChild(mobileMenu);
