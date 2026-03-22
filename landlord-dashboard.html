@@ -319,7 +319,6 @@
                         <div class="message-item unread">
                             <div class="message-avatar">
                                 <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=100&h=100&fit=crop&crop=fac" alt="James">
-                                <span class="unread-dot"></span>
                             </div>
                             <div class="message-content">
                                 <div class="message-header">
@@ -356,7 +355,6 @@
                 </div>
                 <button class="btn-primary add-property-btn" onclick="openAddPropertyModal()">
                     <i class="fas fa-plus"></i>
-                    Add Property
                 </button>
             </div>
             
@@ -504,6 +502,340 @@
                 </div>
             </div>
         </section>
+
+        <!-- Bookings Section -->
+        <section class="dashboard-section" id="bookings">
+            <div class="section-header">
+                <div>
+                    <h1>My Bookings</h1>
+                    <p>Manage all incoming booking requests and active reservations across your properties.</p>
+                </div>
+                <div class="header-actions">
+                    <button class="btn-secondary" onclick="exportBookings()">Export CSV</button>
+                </div>
+            </div>
+
+            <!-- Quick Stats -->
+            <div class="stats-grid bookings-stats">
+                <div class="stat-card small">
+                    <div class="stat-icon">
+                        <i class="fas fa-calendar-check"></i>
+                    </div>
+                    <div class="stat-info">
+                        <span class="stat-label">Total</span>
+                        <span class="stat-value">24</span>
+                    </div>
+                </div>
+                <div class="stat-card small">
+                    <div class="stat-icon">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                    <div class="stat-info">
+                        <span class="stat-label">Pending</span>
+                        <span class="stat-value">3</span>
+                    </div>
+                </div>
+                <div class="stat-card small">
+                    <div class="stat-icon">
+                        <i class="fas fa-check-circle"></i>
+                    </div>
+                    <div class="stat-info">
+                        <span class="stat-label">Confirmed</span>
+                        <span class="stat-value">18</span>
+                    </div>
+                </div>
+                <div class="stat-card small">
+                    <div class="stat-icon revenue">
+                        <i class="fas fa-naira-sign"></i>
+                    </div>
+                    <div class="stat-info">
+                        <span class="stat-label">Revenue</span>
+                        <span class="stat-value">₦2.4M</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Filters and Search -->
+            <div class="property-filters">
+                <div class="filter-tabs">
+                    <button class="filter-tab active" data-filter="all">All</button>
+                    <button class="filter-tab" data-filter="pending">Pending (3)</button>
+                    <button class="filter-tab" data-filter="confirmed">Confirmed (18)</button>
+                    <button class="filter-tab" data-filter="cancelled">Cancelled (3)</button>
+                </div>
+                <div class="search-box">
+                    <i class="fas fa-search"></i>
+                    <input type="text" id="bookingSearch" placeholder="Search by tenant, property or room...">
+                </div>
+            </div>
+
+            <!-- Bookings Table -->
+            <div class="table-container">
+                <table class="bookings-table">
+                    <thead>
+                        <tr>
+                            <th><i class="fas fa-user"></i> Tenant</th>
+                            <th><i class="fas fa-building"></i> Property</th>
+                            <th>Room</th>
+                            <th>Check-in</th>
+                            <th>Check-out</th>
+                            <th>Duration</th>
+                            <th>Amount</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="bookingsTableBody">
+                        <!-- Mock Data Row 1 -->
+                        <tr>
+                            <td class="tenant-cell">
+                                <div class="tenant-info">
+                                    <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=40&h=40&fit=crop&crop=face" alt="David Adeyemi" class="tenant-avatar">
+                                    <div>
+                                        <span class="tenant-name">David Adeyemi</span>
+                                        <span class="tenant-email">david@example.com</span>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>Royal Nest Hostel</td>
+                            <td>Room 105</td>
+                            <td>2024-10-01</td>
+                            <td>2025-09-30</td>
+                            <td>12 months</td>
+                            <td class="amount">₦350,000</td>
+                            <td><span class="booking-status confirmed"><i class="fas fa-check-circle"></i> Confirmed</span></td>
+                            <td>
+                                <div class="action-buttons">
+                                    <button class="action-btn view" title="View Details" onclick="openBookingModal('royal-nest-105')"><i class="fas fa-eye"></i></button>
+                                    <button class="action-btn edit" title="Edit Booking"><i class="fas fa-edit"></i></button>
+                                    <button class="action-btn invoice" title="Invoice"><i class="fas fa-file-invoice"></i></button>
+                                </div>
+                            </td>
+                        </tr>
+                        <!-- Mock Data Row 2 -->
+                        <tr>
+                            <td class="tenant-cell">
+                                <div class="tenant-info">
+                                    <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=40&h=40&fit=crop&crop=face" alt="Sarah Johnson" class="tenant-avatar">
+                                    <div>
+                                        <span class="tenant-name">Sarah Johnson</span>
+                                        <span class="tenant-email">sarah@example.com</span>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>Scholar's Lodge</td>
+                            <td>Room 12A</td>
+                            <td>2024-10-15</td>
+                            <td>2025-09-30</td>
+                            <td>12 months</td>
+                            <td class="amount">₦450,000</td>
+                            <td><span class="booking-status pending"><i class="fas fa-clock"></i> Pending</span></td>
+                            <td>
+                                <div class="action-buttons">
+                                    <button class="action-btn view" title="View Details" onclick="openBookingModal('scholars-12a')"><i class="fas fa-eye"></i></button>
+                                    <button class="action-btn confirm" title="Confirm" onclick="confirmBooking('scholars-12a')"><i class="fas fa-check"></i></button>
+                                    <button class="action-btn cancel" title="Cancel" onclick="cancelBooking('scholars-12a')"><i class="fas fa-times"></i></button>
+                                </div>
+                            </td>
+                        </tr>
+                        <!-- Mock Data Row 3 -->
+                        <tr>
+                            <td class="tenant-cell">
+                                <div class="tenant-info">
+                                    <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=40&h=40&fit=crop&crop=face" alt="Michael Okonkwo" class="tenant-avatar">
+                                    <div>
+                                        <span class="tenant-name">Michael Okonkwo</span>
+                                        <span class="tenant-email">michael@example.com</span>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>Student Haven</td>
+                            <td>Room B4</td>
+                            <td>2024-09-20</td>
+                            <td>2025-06-30</td>
+                            <td>10 months</td>
+                            <td class="amount">₦280,000</td>
+                            <td><span class="booking-status confirmed"><i class="fas fa-check-circle"></i> Confirmed</span></td>
+                            <td>
+                                <div class="action-buttons">
+                                    <button class="action-btn view" title="View Details" onclick="openBookingModal('student-b4')"><i class="fas fa-eye"></i></button>
+                                    <button class="action-btn edit" title="Edit Booking"><i class="fas fa-edit"></i></button>
+                                </div>
+                            </td>
+                        </tr>
+                        <!-- More rows can be added similarly -->
+                        <tr>
+                            <td class="tenant-cell">
+                                <div class="tenant-info">
+                                    <img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=40&h=40&fit=crop&crop=face" alt="Emily Davis" class="tenant-avatar">
+                                    <div>
+                                        <span class="tenant-name">Emily Davis</span>
+                                        <span class="tenant-email">emily@example.com</span>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>Royal Nest Hostel</td>
+                            <td>Room 208</td>
+                            <td>2024-11-01</td>
+                            <td>2025-10-31</td>
+                            <td>12 months</td>
+                            <td class="amount">₦350,000</td>
+                            <td><span class="booking-status pending"><i class="fas fa-clock"></i> Pending</span></td>
+                            <td>
+                                <div class="action-buttons">
+                                    <button class="action-btn view" title="View Details"><i class="fas fa-eye"></i></button>
+                                    <button class="action-btn confirm" title="Confirm"><i class="fas fa-check"></i></button>
+                                    <button class="action-btn cancel" title="Cancel"><i class="fas fa-times"></i></button>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="tenant-cell">
+                                <div class="tenant-info">
+                                    <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=40&h=40&fit=crop&crop=face" alt="Lisa Anderson" class="tenant-avatar">
+                                    <div>
+                                        <span class="tenant-name">Lisa Anderson</span>
+                                        <span class="tenant-email">lisa@example.com</span>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>Scholar's Lodge</td>
+                            <td>Room 5C</td>
+                            <td>2024-09-01</td>
+                            <td>2024-09-30</td>
+                            <td>1 month</td>
+                            <td class="amount">₦40,000</td>
+                            <td><span class="booking-status cancelled"><i class="fas fa-times-circle"></i> Cancelled</span></td>
+                            <td>
+                                <div class="action-buttons">
+                                    <button class="action-btn view" title="View Details"><i class="fas fa-eye"></i></button>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="tenant-cell">
+                                <div class="tenant-info">
+                                    <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=40&h=40&fit=crop&crop=face" alt="James Wilson" class="tenant-avatar">
+                                    <div>
+                                        <span class="tenant-name">James Wilson</span>
+                                        <span class="tenant-email">james@example.com</span>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>Student Haven</td>
+                            <td>Room A12</td>
+                            <td>2024-10-10</td>
+                            <td>2025-09-30</td>
+                            <td>12 months</td>
+                            <td class="amount">₦280,000</td>
+                            <td><span class="booking-status confirmed"><i class="fas fa-check-circle"></i> Confirmed</span></td>
+                            <td>
+                                <div class="action-buttons">
+                                    <button class="action-btn view" title="View Details"><i class="fas fa-eye"></i></button>
+                                    <button class="action-btn edit" title="Edit Booking"><i class="fas fa-edit"></i></button>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Pagination -->
+            <div class="pagination-container">
+                <div class="pagination">
+                    <button class="page-btn" onclick="previousPage()"><i class="fas fa-chevron-left"></i></button>
+                    <span class="page-info">Page 1 of 3</span>
+                    <button class="page-btn" onclick="nextPage()"><i class="fas fa-chevron-right"></i></button>
+                </div>
+                <div class="results-info">
+                    Showing 1-6 of 24 bookings
+                </div>
+            </div>
+        </section>
+
+        <!-- Messages Section -->
+<section class="dashboard-section" id="messages">
+    <div class="messaging-container">
+        <!-- Conversations Sidebar -->
+        <div class="conversations-sidebar">
+            <div class="sidebar-search">
+                <input type="search" id="convoSearch" placeholder="Search conversations">
+            </div>
+
+            <div class="chat-list" id="chatList">
+                <!-- Dynamic conversations loaded by JavaScript -->
+                <div class="conversation-item" id="emily">
+                    <img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=50&h=50&fit=crop&crop=face" alt="">
+                    <div class="item-in-content">
+                        <div class="content-head">
+                            <h4>Emily Davis</h4>
+                            <div class="time">10:32</div> 
+                        </div>
+                        <span>Perfect! When is the best time?</span>
+                    </div>     
+                              
+                </div>
+
+                <div class="conversation-item" id="james">
+                    <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=50&h=50&fit=crop&crop=face" alt="">
+                    <div class="item-in-content">
+                        <div class="content-head">
+                            <h4>James Wilson</h4>
+                            <div class="time">09:15</div>
+                        </div>
+                        <span>Thanks for the info! Great to hear.</span>
+                    </div>            
+                </div>
+
+                <div class="conversation-item" id="sarah">
+                    <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=50&h=50&fit=crop&crop=face" alt="">
+                    <div class="item-in-content">
+                        <div class="content-head">
+                            <h4>Sarah Johnson</h4>
+                            <div class="time">06:45</div>
+                        </div>   
+                        <span>Please confirm my booking for Room B4 ASAP. I need to make arrangements.</span>
+                    </div>                                  
+                </div>
+            </div>
+        </div>
+
+        <!-- Active Chat Window -->
+        <div class="chat-window">
+            <!-- Chat Header -->
+            <div class="chat-header" id="chatHeader">
+                <div class="chat-header-info">
+                    <div class="chat-avatar">
+                        <img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=40&h=40&fit=crop&crop=face" alt="Emily">
+                    </div>
+                    <div>
+                        <h3 class="chat-name">Emily Davis</h3>
+                        <span class="chat-hostel">Royal Nest Hostel</span>
+                    </div>
+                </div>
+                <div class="chat-status online">
+                    <i class="fas fa-circle"></i> Online
+                </div>
+            </div>
+
+            <!-- Messages Container -->
+                <div class="message-container" id="messagesContainer">
+                    <div id="messages" class="message-box"></div>
+                </div>
+
+            <!-- Message Composer -->
+            <div class="message-composer">
+                <button class="composer-btn emoji-btn">
+                    <i class="fas fa-face-smile"></i>
+                </button>
+                <input type="text" id="messageInput" placeholder="Type a message..." maxlength="1000">
+                <button class="composer-btn send-btn" id="sendBtn">
+                    <i class="fas fa-paper-plane"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+</section>
     </main>
 
     <!-- Add Property Modal -->
@@ -648,6 +980,20 @@
             }
         });
 
+        // Messages section now uses script.js dynamic functionality
+
+        function openMessageModal(id) {
+            showSuccess('Opening conversation: ' + id);
+            // Full modal would go here
+        }
+
+        function exportMessages() {
+            showSuccess('Messages exported to CSV');
+        }
+
+        function previousMessagePage() { showSuccess('Previous page'); }
+        function nextMessagePage() { showSuccess('Next page'); }
+
         // Form submission
         document.getElementById('addPropertyForm').addEventListener('submit', function(e) {
             e.preventDefault();
@@ -665,6 +1011,8 @@
                 successMsg.classList.remove('show');
             }, 3000);
         }
+
+        //messaging
     </script>
 </body>
 </html>

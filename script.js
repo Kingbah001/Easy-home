@@ -664,6 +664,288 @@ function sortHostels(sortBy) {
 }
 
 // ========================================
+ // Messaging Functionality
+// ========================================
+let currentConvoId = null;
+let conversations = [
+    {
+        id: 'emily',
+        name: 'Emily Davis',
+        hostel: 'Royal Nest Hostel',
+        avatar: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=50&h=50&fit=crop&crop=face',
+        lastMessage: 'Hi, is Room 105 still available for October?',
+        lastTime: '10:32',
+        unread: 2,
+        online: true,
+        messages: [
+            { text: 'Hi John! Is Room 105 still available for October?', sender: 'student', time: '10:25' },
+            { text: 'Yes, it\'s available. Would you like to schedule a viewing?', sender: 'landlord', time: '10:28' },
+            { text: 'Perfect! When is the best time?', sender: 'student', time: '10:32' }
+        ]
+    },
+    {
+        id: 'james',
+        name: 'James Wilson',
+        hostel: "Scholar's Lodge",
+        avatar: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=50&h=50&fit=crop&crop=face',
+        lastMessage: 'Thanks for the info!',
+        lastTime: '09:15',
+        unread: 0,
+        online: false,
+        messages: [
+            { text: 'Is the WiFi available 24/7 at Scholar\'s Lodge?', sender: 'student', time: '09:10' },
+            { text: 'Yes, we have unlimited fiber optic internet available 24/7.', sender: 'landlord', time: '09:12' },
+            { text: 'Thanks for the info! Great to hear.', sender: 'student', time: '09:15' }
+        ]
+    },
+    {
+        id: 'sarah',
+        name: 'Sarah Johnson',
+        hostel: 'Student Haven',
+        avatar: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=50&h=50&fit=crop&crop=face',
+        lastMessage: 'Please confirm Room B4 ASAP',
+        lastTime: 'Yesterday',
+        unread: 1,
+        online: true,
+        messages: [
+            { text: 'Please confirm my booking for Room B4 ASAP. I need to make arrangements.', sender: 'student', time: '06:45' }
+        ]
+    }
+];
+
+// Dashboard Messaging Integration
+let messagingInitialized = false; // Removed guard for reliable init
+
+// Robust messaging init - called on Messages activation
+function initDashboardMessaging() {
+    console.log('🔥 initDashboardMessaging() called');
+    loadConversationsFromStorage();
+    
+    // Always force re-init on Messages tab (no guard)
+    initMessaging();
+    
+    // Extra safety: force conversations load
+    setTimeout(() => {
+        loadConversations();
+        if (conversations.length > 0) {
+            switchConversation(conversations[0].id);
+        }
+        console.log('✅ Messaging: Chat-list populated + first convo loaded');
+    }, 100);
+}
+
+// DOM Ready + Navigation Handlers
+document.addEventListener('DOMContentLoaded', function() {
+    console.log('📱 DOM loaded - setting up messaging handlers');
+    
+    // Initial attempt
+    setTimeout(initDashboardMessaging, 500);
+    
+    // Direct Messages nav handler (most reliable)
+    document.addEventListener('click', function(e) {
+        const navItem = e.target.closest('.nav-item[data-section="messages"]');
+        if (navItem) {
+            console.log('🎯 Messages nav clicked → forcing init');
+            setTimeout(initDashboardMessaging, 50);
+        }
+    });
+    
+    // Section change observer
+    const sectionObserver = new MutationObserver(function(mutations) {
+        mutations.forEach(() => {
+            if (document.querySelector('.dashboard-section.active#messages')) {
+                console.log('📂 Messages section activated → init messaging');
+                initDashboardMessaging();
+            }
+        });
+    });
+    sectionObserver.observe(document.body, { 
+        childList: true, 
+        subtree: true, 
+        attributes: true, 
+        attributeFilter: ['class'] 
+    });
+    
+    // Safety net: every 2s check if Messages active but not inited
+    setInterval(() => {
+        if (document.querySelector('.dashboard-section.active#messages') && 
+            !document.querySelector('#chatList .conversation-item')) {
+            console.log('🆘 Safety init triggered');
+            initDashboardMessaging();
+        }
+    }, 2000);
+});
+
+function initMessaging() {
+    // Safe element access
+    const messageInput = document.getElementById('messageInput');
+    const sendBtn = document.getElementById('sendBtn');
+    const convoSearch = document.getElementById('convoSearch');
+    
+    if (messageInput) {
+        messageInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                sendMessage();
+            }
+        });
+        messageInput.addEventListener('input', function() {
+            if (sendBtn) sendBtn.disabled = this.value.trim() === '';
+        });
+    }
+    
+    if (sendBtn) sendBtn.addEventListener('click', sendMessage);
+    
+    if (convoSearch) convoSearch.addEventListener('input', filterConversations);
+    
+    loadConversations();
+    
+    // Load first conversation by default
+    if (conversations.length > 0) {
+        switchConversation(conversations[0].id);
+    }
+}
+
+function loadConversations() {
+    const list = document.querySelector('#chatList') || document.getElementById('conversationsList');
+    if (!list) return;
+    list.innerHTML = conversations.map(convo => `
+        <div class="conversation-item ${convo.unread > 0 ? 'unread' : ''} ${currentConvoId === convo.id ? 'active' : ''}" data-id="${convo.id}">
+            <img src="${convo.avatar}" alt="${convo.name}" class="conversation-avatar">
+            <div class="conversation-info">
+                <h4>${convo.name}</h4>
+                <span class="conversation-hostel">${convo.hostel}</span>
+                <p class="conversation-preview">${convo.lastMessage}</p>
+            </div>
+            <div>
+                ${convo.unread > 0 ? `<span class="unread-dot"></span>` : ''}
+                <span class="conversation-time">${convo.lastTime}</span>
+            </div>
+        </div>
+    `).join('');
+    
+    // Add click listeners
+    document.querySelectorAll('.conversation-item').forEach(item => {
+        item.addEventListener('click', () => {
+            const id = item.dataset.id;
+            switchConversation(id);
+        });
+    });
+}
+
+function switchConversation(id) {
+    currentConvoId = id;
+    const convo = conversations.find(c => c.id === id);
+    if (!convo) return;
+    
+    // Update header - dashboard compatible
+    const chatName = document.querySelector('#chat-name') || document.querySelector('.chat-name');
+    const chatHostel = document.querySelector('.chat-hostel');
+    if (chatName) chatName.textContent = convo.name;
+    if (chatHostel) chatHostel.textContent = convo.hostel;
+    const status = document.querySelector('.chat-status');
+    status.className = `chat-status ${convo.online ? 'online' : 'offline'}`;
+    status.innerHTML = `<i class="fas fa-circle"></i> ${convo.online ? 'Online' : 'Offline'}`;
+    
+    // Update avatar
+    document.querySelector('.chat-avatar img').src = convo.avatar;
+    
+    // Load messages - dashboard compatible
+    const container = document.querySelector('#messages') || document.getElementById('messagesContainer');
+    if (!container) return;
+    container.innerHTML = convo.messages.map(msg => `
+        <div class="message ${msg.sender}">
+            ${msg.sender === 'student' ? `<img src="${convo.avatar}" alt="${convo.name}" class="message-avatar-small">` : ''}
+            <div>
+                <div class="message-bubble">${msg.text}</div>
+                <div class="message-time">${msg.time}</div>
+            </div>
+            ${msg.sender === 'landlord' ? `<img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=32&h=32&fit=crop&crop=face" alt="You" class="message-avatar-small">` : ''}
+        </div>
+    `).join('');
+    
+    // Scroll to bottom
+    // Scroll to bottom
+    container.scrollTop = container.scrollHeight;
+    container.scrollLeft = 0;
+    
+    // Update active conversation
+    loadConversations();
+    
+    // Clear unread if any
+    convo.unread = 0;
+    updateConvoPreview(id);
+}
+
+function sendMessage() {
+    const input = document.getElementById('messageInput');
+    const text = input.value.trim();
+    if (!text || !currentConvoId) return;
+    
+    const convo = conversations.find(c => c.id === currentConvoId);
+    const time = new Date().toLocaleTimeString('en-US', { 
+        hour: 'numeric', 
+        minute: '2-digit',
+        hour12: true 
+    });
+    
+    const message = {
+        text: text,
+        sender: 'landlord',
+        time: time
+    };
+    
+    convo.messages.push(message);
+    convo.lastMessage = text;
+    convo.lastTime = time;
+    
+    input.value = '';
+    document.getElementById('sendBtn').disabled = true;
+    
+    // Reload current chat
+    switchConversation(currentConvoId);
+    
+    // Save to localStorage
+    saveConversations();
+}
+
+function updateConvoPreview(id) {
+    const convo = conversations.find(c => c.id === id);
+    if (convo) {
+        convo.lastMessage = convo.messages[convo.messages.length - 1]?.text || 'No messages yet';
+        convo.lastTime = convo.messages[convo.messages.length - 1]?.time || '';
+    }
+    loadConversations();
+}
+
+document.getElementById('messageInput').addEventListener('input', function() {
+    document.getElementById('sendBtn').disabled = this.value.trim() === '';
+});
+
+function filterConversations() {
+    const search = document.getElementById('convoSearch').value.toLowerCase();
+    const items = document.querySelectorAll('.conversation-item');
+    items.forEach(item => {
+        const text = item.textContent.toLowerCase();
+        item.style.display = text.includes(search) ? 'flex' : 'none';
+    });
+}
+
+function saveConversations() {
+    localStorage.setItem('easyHostelConversations', JSON.stringify(conversations));
+}
+
+function loadConversationsFromStorage() {
+    const saved = localStorage.getItem('easyHostelConversations');
+    if (saved) {
+        conversations = JSON.parse(saved);
+    }
+}
+
+// Load on page load
+loadConversationsFromStorage();
+
+// ========================================
 // Export for potential module use
 // ========================================
 
