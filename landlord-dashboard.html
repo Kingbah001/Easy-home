@@ -764,39 +764,6 @@
 
             <div class="chat-list" id="chatList">
                 <!-- Dynamic conversations loaded by JavaScript -->
-                <div class="conversation-item" id="emily">
-                    <img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=50&h=50&fit=crop&crop=face" alt="">
-                    <div class="item-in-content">
-                        <div class="content-head">
-                            <h4>Emily Davis</h4>
-                            <div class="time">10:32</div> 
-                        </div>
-                        <span>Perfect! When is the best time?</span>
-                    </div>     
-                              
-                </div>
-
-                <div class="conversation-item" id="james">
-                    <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=50&h=50&fit=crop&crop=face" alt="">
-                    <div class="item-in-content">
-                        <div class="content-head">
-                            <h4>James Wilson</h4>
-                            <div class="time">09:15</div>
-                        </div>
-                        <span>Thanks for the info! Great to hear.</span>
-                    </div>            
-                </div>
-
-                <div class="conversation-item" id="sarah">
-                    <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=50&h=50&fit=crop&crop=face" alt="">
-                    <div class="item-in-content">
-                        <div class="content-head">
-                            <h4>Sarah Johnson</h4>
-                            <div class="time">06:45</div>
-                        </div>   
-                        <span>Please confirm my booking for Room B4 ASAP. I need to make arrangements.</span>
-                    </div>                                  
-                </div>
             </div>
         </div>
 
@@ -819,9 +786,9 @@
             </div>
 
             <!-- Messages Container -->
-                <div class="message-container" id="messagesContainer">
-                    <div id="messages" class="message-box"></div>
-                </div>
+            <div class="message-container" id="messagesContainer">
+                <div id="messages" class="message-box"></div>
+            </div>
 
             <!-- Message Composer -->
             <div class="message-composer">
@@ -829,14 +796,280 @@
                     <i class="fas fa-face-smile"></i>
                 </button>
                 <input type="text" id="messageInput" placeholder="Type a message..." maxlength="1000">
-                <button class="composer-btn send-btn" id="sendBtn">
+                <button class="composer-btn send-btn" id="sendBtn" disabled>
                     <i class="fas fa-paper-plane"></i>
                 </button>
             </div>
         </div>
     </div>
 </section>
+
+        <!-- Tenants Section -->
+        <section class="dashboard-section" id="tenants">
+            <div class="section-header">
+                <div>
+                    <h1>My Tenants</h1>
+                    <p>Manage current tenants and occupancy across all your properties</p>
+                </div>
+                <div class="header-actions">
+                    <button class="btn-secondary" onclick="exportTenantsCSV()">Export CSV</button>
+                    <button class="btn-primary" onclick="openTenantModal(0)">+ Add Tenant</button>
+                </div>
+            </div>
+
+            <!-- Quick Stats -->
+            <div class="stats-grid tenants-stats">
+                <div class="stat-card small">
+                    <div class="stat-icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <div class="stat-info">
+                        <span class="stat-label">Total Tenants</span>
+                        <span class="stat-value tenants-total">8</span>
+                    </div>
+                </div>
+                <div class="stat-card small">
+                    <div class="stat-icon">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <div class="stat-info">
+                        <span class="stat-label">Occupancy</span>
+                        <span class="stat-value tenants-occupancy">75%</span>
+                    </div>
+                </div>
+                <div class="stat-card small">
+                    <div class="stat-icon revenue">
+                        <i class="fas fa-naira-sign"></i>
+                    </div>
+                    <div class="stat-info">
+                        <span class="stat-label">Monthly Rent</span>
+                        <span class="stat-value tenants-revenue">₦267,000</span>
+                    </div>
+                </div>
+                <div class="stat-card small warning">
+                    <div class="stat-icon">
+                        <i class="fas fa-exclamation-triangle"></i>
+                    </div>
+                    <div class="stat-info">
+                        <span class="stat-label">Overdue</span>
+                        <span class="stat-value tenants-overdue">2</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Filters and Search -->
+            <div class="property-filters">
+                <div class="filter-tabs">
+                    <button class="filter-tab tenant-filter-tab active" data-filter="all">All (8)</button>
+                    <button class="filter-tab tenant-filter-tab" data-filter="active">Active (5)</button>
+                    <button class="filter-tab tenant-filter-tab" data-filter="pending">Pending (2)</button>
+                    <button class="filter-tab tenant-filter-tab" data-filter="overdue">Overdue (2)</button>
+                </div>
+                <div class="search-box">
+                    <i class="fas fa-search"></i>
+                    <input type="text" id="tenantSearch" placeholder="Search tenants by name, email or property...">
+                </div>
+            </div>
+
+            <!-- Tenants Table -->
+            <div class="table-container">
+                <table class="tenants-table">
+                    <thead>
+                        <tr>
+                            <th><i class="fas fa-user"></i> Tenant</th>
+                            <th><i class="fas fa-building"></i> Property</th>
+                            <th>Room</th>
+                            <th>Check-in</th>
+                            <th>Duration</th>
+                            <th>Rent/Month</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tenantsTableBody">
+                        <!-- Mock Data Row 1 -->
+                        <tr class="row-one">
+                            <td class="tenant-cell">
+                                <div class="tenant-info">
+                                    <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=40&h=40&fit=crop&crop=face" alt="David Adeyemi" class="tenant-avatar">
+                                    <div>
+                                        <span class="tenant-name">David Adeyemi</span>
+                                        <span class="tenant-email">david@example.com</span>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>Royal Nest Hostel</td>
+                            <td>105</td>
+                            <td>2024-10-01</td>
+                            <td>12 months</td>
+                            <td class="amount">₦35,000</td>
+                            <td><span class="tenant-status active"><i class="fas fa-check-circle"></i> ACTIVE</span></td>
+                            <td>
+                                <div class="action-buttons">
+                                    <button class="action-btn view" title="View Details" onclick="openTenantModal('david-105')"><i class="fas fa-eye"></i></button>
+                                    <button class="action-btn edit" title="Edit"><i class="fas fa-edit"></i></button>
+                                    <button class="action-btn delete" title="Delete"><i class="fas fa-trash"></i></button>
+                                </div>
+                            </td>
+                        </tr>
+
+                        <!-- Mock Data Row 2 -->
+                        <tr class="row-two">
+                            <td class="tenant-cell">
+                                <div class="tenant-info">
+                                    <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=40&h=40&fit=crop&crop=face" alt="Sarah Johnson" class="tenant-avatar">
+                                    <div> 
+                                        <span class="tenant-name">Sarah Johnson</span>
+                                        <span class="tenant-email">sarah@example.com</span>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>Scholar's Lodge</td>
+                            <td>12A</td>
+                            <td>2024-10-15</td>
+                            <td>12 months</td>
+                            <td class="amount">₦45,000</td>
+                            <td><span class="tenant-status pending"><i class="fas fa-clock"></i> PENDING</span></td>
+                            <td>
+                                <div class="action-buttons">
+                                    <button class="action-btn view" title="View Details"><i class="fas fa-eye"></i></button>
+                                    <button class="action-btn confirm" title="Confirm"><i class="fas fa-check"></i></button>
+                                    <button class="action-btn delete" title="Delete"><i class="fas fa-trash"></i></button>
+                                </div>
+                            </td>
+                        </tr>
+
+                        <!-- Mock Data Row 3 -->
+                        <tr class="row-three">
+                            <td class="tenant-cell">
+                                <div class="tenant-info">
+                                    <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=40&h=40&fit=crop&crop=face" alt="Michael Okonkwo" class="tenant-avatar">
+                                    <div>
+                                        <span class="tenant-name">Michael Okonkwo</span>
+                                        <span class="tenant-email">michael@example.com</span>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>Student Haven</td>
+                            <td>B4</td>
+                            <td>2024-09-20</td>
+                            <td>10 months</td>
+                            <td class="amount">₦28,000</td>
+                            <td><span class="tenant-status overdue"><i class="fas fa-exclamation-triangle"></i> OVERDUE</span></td>
+                            <td>
+                                <div class="action-buttons">
+                                    <button class="action-btn view" title="View Details"><i class="fas fa-eye"></i></button>
+                                    <button class="action-btn edit" title="Edit"><i class="fas fa-edit"></i></button>
+                                    <button class="action-btn invoice" title="Invoice"><i class="fas fa-file-invoice"></i></button>
+                                </div>
+                            </td>
+                        </tr>
+                        <!-- More rows... -->
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Pagination -->
+            <div class="pagination-container">
+                <div class="pagination">
+                    <button class="page-btn"><i class="fas fa-chevron-left"></i></button>
+                    <span class="page-info">Page 1 of 1</span>
+                    <button class="page-btn"><i class="fas fa-chevron-right"></i></button>
+                </div>
+                <div class="results-info">
+                    Showing <span id="tenantsResultsCount">8</span> of 8 tenants
+                </div>
+            </div>
+        </section>
     </main>
+
+    <!-- Add/Edit Tenant Modal -->
+    <div id="addTenantModal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal" onclick="closeTenantModal()">&times;</span>
+            <div class="modal-header">
+                <h2 id="tenantModalTitle">Add New Tenant</h2>
+                <p>Enter tenant information</p>
+            </div>
+            <form id="tenantForm">
+                <input type="hidden" id="editTenantId" value="0">
+                
+                <div class="form-group">
+                    <label>Tenant Name *</label>
+                    <input type="text" id="editTenantName" placeholder="Full name" required>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Email *</label>
+                        <input type="email" id="editTenantEmail" placeholder="tenant@example.com" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Phone *</label>
+                        <input type="tel" id="editTenantPhone" placeholder="+234 801 234 5678" required>
+                    </div>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Property *</label>
+                        <select id="editTenantProperty" required>
+                            <option value="">Select Property</option>
+                            <option>Royal Nest Hostel</option>
+                            <option>Student Haven</option>
+                            <option>Scholar's Lodge</option>
+                            <option>Campus View Apartments</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Room No. *</label>
+                        <input type="text" id="editTenantRoom" placeholder="105" required>
+                    </div>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Check-in Date</label>
+                        <input type="date" id="editTenantCheckin" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Monthly Rent (₦) *</label>
+                        <input type="number" id="editTenantRent" placeholder="35000" min="10000" required>
+                    </div>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Duration</label>
+                        <select>
+                            <option>1 month</option>
+                            <option>3 months</option>
+                            <option>6 months</option>
+                            <option>12 months</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Status *</label>
+                        <select id="editTenantStatus" required>
+                            <option value="pending">Pending</option>
+                            <option value="active">Active</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="form-group checkbox-group">
+                    <label>
+                        <input type="checkbox" id="tenantOverdue"> Payment Overdue
+                    </label>
+                </div>
+                
+                <div class="form-actions">
+                    <button type="button" class="btn-secondary" onclick="closeTenantModal()">Cancel</button>
+                    <button type="submit" class="btn-primary">Save Tenant</button>
+                </div>
+            </form>
+        </div>
+    </div>
 
     <!-- Add Property Modal -->
     <div id="addPropertyModal" class="modal">

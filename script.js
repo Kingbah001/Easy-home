@@ -664,6 +664,333 @@ function sortHostels(sortBy) {
 }
 
 // ========================================
+ // Tenants Management Data & Functions
+// ========================================
+const tenantsData = [
+    {
+        id: 1,
+        name: "David Adeyemi",
+        email: "david@example.com",
+        phone: "+2348012345678",
+        property: "Royal Nest Hostel",
+        room: "105",
+        checkIn: "2024-10-01",
+        duration: "12 months",
+        rentMonthly: 35000,
+        status: "active",
+        overdue: false,
+        avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=40&h=40&fit=crop&crop=face"
+    },
+    {
+        id: 2,
+        name: "Sarah Johnson", 
+        email: "sarah@example.com",
+        phone: "+2348098765432",
+        property: "Scholar's Lodge",
+        room: "12A",
+        checkIn: "2024-10-15",
+        duration: "12 months",
+        rentMonthly: 45000,
+        status: "pending",
+        overdue: false,
+        avatar: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=40&h=40&fit=crop&crop=face"
+    },
+    {
+        id: 3,
+        name: "Michael Okonkwo",
+        email: "michael@example.com", 
+        phone: "+2347087654321",
+        property: "Student Haven",
+        room: "B4",
+        checkIn: "2024-09-20",
+        duration: "10 months",
+        rentMonthly: 28000,
+        status: "active",
+        overdue: true,
+        avatar: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=40&h=40&fit=crop&crop=face"
+    },
+    {
+        id: 4,
+        name: "Emily Davis",
+        email: "emily@example.com",
+        phone: "+2348011112222",
+        property: "Royal Nest Hostel", 
+        room: "208",
+        checkIn: "2024-11-01",
+        duration: "12 months",
+        rentMonthly: 35000,
+        status: "pending",
+        overdue: false,
+        avatar: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=40&h=40&fit=crop&crop=face"
+    },
+    {
+        id: 5,
+        name: "James Wilson",
+        email: "james@example.com",
+        phone: "+2348022223333",
+        property: "Student Haven",
+        room: "A12",
+        checkIn: "2024-10-10", 
+        duration: "12 months",
+        rentMonthly: 28000,
+        status: "active",
+        overdue: false,
+        avatar: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=40&h=40&fit=crop&crop=face"
+    },
+    {
+        id: 6,
+        name: "Lisa Anderson",
+        email: "lisa@example.com",
+        phone: "+2348033334444",
+        property: "Scholar's Lodge",
+        room: "5C",
+        checkIn: "2024-09-01",
+        duration: "1 month", 
+        rentMonthly: 40000,
+        status: "active",
+        overdue: true,
+        avatar: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=40&h=40&fit=crop&crop=face"
+    },
+    {
+        id: 7,
+        name: "Chinedu Eze",
+        email: "chinedu@example.com",
+        phone: "+2348044445555",
+        property: "Royal Nest Hostel",
+        room: "310",
+        checkIn: "2024-08-15",
+        duration: "12 months",
+        rentMonthly: 35000,
+        status: "active",
+        overdue: false,
+        avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=40&h=40&fit=crop&crop=face"
+    },
+    {
+        id: 8,
+        name: "Fatima Yusuf",
+        email: "fatima@example.com",
+        phone: "+2348055556666",
+        property: "Student Haven",
+        room: "C7",
+        checkIn: "2024-10-20",
+        duration: "6 months",
+        rentMonthly: 25000,
+        status: "pending",
+        overdue: false,
+        avatar: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=40&h=40&fit=crop&crop=face"
+    }
+];
+
+let currentTenants = [...tenantsData];
+
+function initTenants() {
+    loadTenantsTable();
+    setupTenantFilters();
+    setupTenantSearch();
+    updateTenantsStats();
+}
+
+function loadTenantsTable(filteredTenants = currentTenants) {
+    const tbody = document.getElementById('tenantsTableBody');
+    if (!tbody) return;
+    
+    tbody.innerHTML = filteredTenants.map(tenant => `
+        <tr data-id="${tenant.id}">
+            <td class="tenant-cell">
+                <div class="tenant-info">
+                    <img src="${tenant.avatar}" alt="${tenant.name}" class="tenant-avatar">
+                    <div>
+                        <span class="tenant-name">${tenant.name}</span>
+                        <span class="tenant-email">${tenant.email}</span>
+                    </div>
+                </div>
+            </td>
+            <td>${tenant.property}</td>
+            <td>${tenant.room}</td>
+            <td>${tenant.checkIn}</td>
+            <td>${tenant.duration}</td>
+            <td class="amount">₦${tenant.rentMonthly.toLocaleString()}</td>
+            <td>
+                <span class="tenant-status ${tenant.status} ${tenant.overdue ? 'overdue' : ''}">
+                    <i class="fas fa-${tenant.status === 'active' ? 'check-circle' : 'clock'}"></i>
+                    ${tenant.status.toUpperCase()}${tenant.overdue ? ' (Overdue)' : ''}
+                </span>
+            </td>
+            <td>
+                <div class="action-buttons">
+                    <button class="action-btn view" title="View Details" onclick="openTenantModal(${tenant.id})">
+                        <i class="fas fa-eye"></i>
+                    </button>
+                    <button class="action-btn edit" title="Edit Tenant" onclick="editTenant(${tenant.id})">
+                        <i class="fas fa-edit"></i>
+                    </button>
+                    <button class="action-btn delete" title="Remove Tenant" onclick="deleteTenant(${tenant.id})">
+                        <i class="fas fa-trash"></i>
+                    </button>
+                </div>
+            </td>
+        </tr>
+    `).join('');
+}
+
+function setupTenantFilters() {
+    document.querySelectorAll('.tenant-filter-tab').forEach(tab => {
+        tab.addEventListener('click', () => {
+            document.querySelectorAll('.tenant-filter-tab').forEach(t => t.classList.remove('active'));
+            tab.classList.add('active');
+            
+            const filter = tab.dataset.filter;
+            filterTenants(filter);
+        });
+    });
+}
+
+function setupTenantSearch() {
+    const searchInput = document.getElementById('tenantSearch');
+    if (searchInput) {
+        searchInput.addEventListener('input', (e) => {
+            filterTenants('all', e.target.value);
+        });
+    }
+}
+
+function filterTenants(statusFilter = 'all', searchTerm = '') {
+    let filtered = tenantsData.filter(tenant => {
+        const matchesStatus = statusFilter === 'all' || tenant.status === statusFilter;
+        const matchesSearch = !searchTerm || 
+            tenant.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+            tenant.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
+            tenant.property.toLowerCase().includes(searchTerm.toLowerCase());
+        return matchesStatus && matchesSearch;
+    });
+    
+    currentTenants = filtered;
+    loadTenantsTable(filtered);
+    updateTenantsStats();
+}
+
+function updateTenantsStats() {
+    const total = tenantsData.length;
+    const active = tenantsData.filter(t => t.status === 'active').length;
+    const occupancy = total > 0 ? Math.round((active / total) * 100) : 0;
+    const monthlyRevenue = tenantsData.reduce((sum, t) => sum + t.rentMonthly, 0);
+    const overdue = tenantsData.filter(t => t.overdue).length;
+    
+    // Update stats cards
+    document.querySelector('.tenants-total')?.textContent = total;
+    document.querySelector('.tenants-occupancy')?.textContent = `${occupancy}%`;
+    document.querySelector('.tenants-revenue')?.textContent = `₦${monthlyRevenue.toLocaleString()}`;
+    document.querySelector('.tenants-overdue')?.textContent = overdue;
+    
+    // Update occupancy bar
+    const occupancyBar = document.querySelector('.tenants-occupancy-bar .occupancy-fill');
+    if (occupancyBar) occupancyBar.style.width = `${occupancy}%`;
+}
+
+function openTenantModal(tenantId) {
+    const tenant = tenantsData.find(t => t.id === tenantId);
+    if (!tenant) return;
+    
+    // Populate modal form
+    document.getElementById('editTenantId').value = tenant.id;
+    document.getElementById('editTenantName').value = tenant.name;
+    document.getElementById('editTenantEmail').value = tenant.email;
+    document.getElementById('editTenantPhone').value = tenant.phone;
+    document.getElementById('editTenantProperty').value = tenant.property;
+    document.getElementById('editTenantRoom').value = tenant.room;
+    document.getElementById('editTenantCheckin').value = tenant.checkIn;
+    document.getElementById('editTenantRent').value = tenant.rentMonthly;
+    
+    document.getElementById('addTenantModal').classList.add('active');
+    document.body.style.overflow = 'hidden';
+}
+
+function editTenant(tenantId) {
+    openTenantModal(tenantId);
+}
+
+function deleteTenant(tenantId) {
+    if (confirm('Remove this tenant?')) {
+        tenantsData = tenantsData.filter(t => t.id !== tenantId);
+        loadTenantsTable(currentTenants);
+        updateTenantsStats();
+        showSuccess('Tenant removed successfully');
+    }
+}
+
+function saveTenantChanges() {
+    const id = parseInt(document.getElementById('editTenantId').value);
+    const name = document.getElementById('editTenantName').value;
+    const email = document.getElementById('editTenantEmail').value;
+    const phone = document.getElementById('editTenantPhone').value;
+    const property = document.getElementById('editTenantProperty').value;
+    const room = document.getElementById('editTenantRoom').value;
+    const checkin = document.getElementById('editTenantCheckin').value;
+    const rent = parseInt(document.getElementById('editTenantRent').value);
+    
+    const tenantIndex = tenantsData.findIndex(t => t.id === id);
+    if (tenantIndex !== -1) {
+        tenantsData[tenantIndex] = {
+            ...tenantsData[tenantIndex],
+            name, email, phone, property, room, checkIn: checkin, rentMonthly: rent
+        };
+        loadTenantsTable(currentTenants);
+        updateTenantsStats();
+        closeTenantModal();
+        showSuccess('Tenant updated successfully');
+    }
+}
+
+function addNewTenant() {
+    const id = Date.now();
+    const name = document.getElementById('newTenantName')?.value || '';
+    // Add logic for new tenant form
+    
+    const newTenant = {
+        id,
+        name,
+        email: '',
+        phone: '',
+        property: 'Royal Nest Hostel',
+        room: 'New',
+        checkIn: new Date().toISOString().split('T')[0],
+        duration: '12 months',
+        rentMonthly: 30000,
+        status: 'pending',
+        overdue: false,
+        avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=40&h=40&fit=crop&crop=face'
+    };
+    
+    tenantsData.unshift(newTenant);
+    loadTenantsTable(currentTenants);
+    updateTenantsStats();
+    showSuccess('New tenant added');
+}
+
+function closeTenantModal() {
+    document.getElementById('addTenantModal')?.classList.remove('active');
+    document.body.style.overflow = 'auto';
+}
+
+function exportTenantsCSV() {
+    const csv = [
+        ['ID','Name','Email','Phone','Property','Room','Check-in','Duration','Rent/Mo','Status'],
+        ...tenantsData.map(t => [
+            t.id, t.name, t.email, t.phone, t.property, t.room, 
+            t.checkIn, t.duration, t.rentMonthly, t.status
+        ])
+    ].map(row => row.map(cell => `"${cell}"`).join(',')).join('\n');
+    
+    const blob = new Blob([csv], { type: 'text/csv' });
+    const url = window.URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'tenants.csv';
+    a.click();
+    showSuccess('Tenants exported to CSV');
+}
+
+// ========================================
  // Messaging Functionality
 // ========================================
 let currentConvoId = null;
