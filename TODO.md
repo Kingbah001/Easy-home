@@ -1,11 +1,16 @@
-# Tenants Section ✅ COMPLETE
+# Hamburger Menu Fix - TODO
 
-**Summary**:
-- Added 3 mock tenant rows (David, Sarah, Michael) matching Bookings pattern
-- Full table displays immediately on \"Tenants\" nav click
-- Stats, filters, pagination, Add modal, Export CSV, action buttons
-- Responsive design complete
+## Status: [ ] In Progress
 
-**Demo**: `start landlord-dashboard.html` → Click \"Tenants\" nav ✅
+### Breakdown of Approved Plan:
+1. [ ] **Create TODO.md** ✅ *Done*
+2. [ ] Update script.js with correct selectors and event listeners
+3. [✅] Remove onclick="closeMobileMenu()" from index.html mobile-nav links
+4. [✅] Complete hamburger animations in styles.css
+5. [ ] Test hamburger functionality (toggle open/close, overlay, smooth scroll)
+6. [ ] Test mobile responsiveness (<768px)
+7. [ ] Verify no body scroll when menu open
+8. [ ] Update TODO progress after each step
+9. [ ] attempt_completion
 
-**All requirements met - Section production-ready!**
+**Next Step:** Edit script.js

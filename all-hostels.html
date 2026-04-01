@@ -311,6 +311,40 @@
 
     <script src="script.js"></script>
     <script>
+        // Modal functions for all-hostels page (required by HTML onclick handlers)
+        function closeHostelModal() {
+            document.getElementById('hostelModal').classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+
+        function closeLandlordModal() {
+            document.getElementById('landlordModal').classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+
+        function openLandlordModal() {
+            document.getElementById('landlordModal').classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function submitLandlordForm(event) {
+            event.preventDefault();
+            console.log('Landlord form submitted from all-hostels page');
+            showSuccess('Property listed successfully! We will contact you soon.');
+            closeLandlordModal();
+            event.target.reset();
+        }
+
+        function showSuccess(message) {
+            const successText = document.getElementById('successText');
+            if (successText) {
+                successText.textContent = message;
+                const successMessage = document.getElementById('successMessage');
+                successMessage.classList.add('show');
+                setTimeout(() => successMessage.classList.remove('show'), 3000);
+            }
+        }
+
         // Extended hostel data for all-hostels page
         const allHostelsData = [
             {

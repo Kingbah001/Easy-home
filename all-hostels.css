@@ -267,6 +267,13 @@
     box-shadow: var(--shadow-md);
 }
 
+.hostel-features{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 7px;
+    margin-bottom: 15px;
+}
+
 /* CTA Section (All Hostels Page) */
 .all-hostels-section + .cta-section .cta-content {
     background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);

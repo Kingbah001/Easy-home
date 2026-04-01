@@ -1,602 +1,945 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Easy Hostel - Find Your Perfect Student Accommodation</title>
-    <link rel="stylesheet" href="styles.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-</head>
-<body>
+    <link rel="stylesheet" href="styles.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+  </head>
+  <body>
     <!-- Navigation -->
     <nav class="navbar">
-        <div class="container">
-            <a href="#" class="logo">
-                <i class="fas fa-home"></i> Easy<span>Hostel</span>
+      <div class="container">
+        <a href="" class="logo">
+          <i class="fas fa-home"></i> Easy<span>Hostel</span>
+        </a>
+        <ul class="nav-links">
+          <li><a href="#home">Home</a></li>
+          <li><a href="#hostels">Hostels</a></li>
+          <li><a href="all-hostels.html">All Hostels</a></li>
+          <li><a href="#how-it-works">How It Works</a></li>
+          <li><a href="#why-us">Why Us</a></li>
+          <li><a href="#contact">Contact</a></li>
+          <li>
+            <a href="landlord-dashboard.html" class="dashboard-link">
+              <i class="fas fa-tachometer-alt"></i> Dashboard
             </a>
-<ul class="nav-links">
-                <li><a href="#home">Home</a></li>
-                <li><a href="#hostels">Hostels</a></li>
-                <li><a href="all-hostels.html">All Hostels</a></li>
-                <li><a href="#how-it-works">How It Works</a></li>
-                <li><a href="#why-us">Why Us</a></li>
-                <li><a href="#contact">Contact</a></li>
-                <li><a href="landlord-dashboard.html" class="dashboard-link"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
-            </ul>
-            <button class="landlord-btn" onclick="openLandlordModal()">
-                <i class="fas fa-plus"></i> List Your Property
-            </button>
-            <div class="hamburger">
-                <span></span>
-                <span></span>
-                <span></span>
-            </div>
+          </li>
+        </ul>
+        <button class="landlord-btn" onclick="openLandlordModal()">
+          <i class="fas fa-plus"></i>List Your Property
+        </button>
+        <div class="hamburger">
+          <span></span>
+          <span></span>
+          <span></span>
         </div>
+
+        <div class="nav-overlay"></div>
+
+        <!-- Mobile Navigation Menu (clean, single structure) -->
+        <ul class="mobile-nav">
+          <li>
+            <a href="#hostels" class="mobile-nav-link">
+              Hostels
+            </a>
+          </li>
+          <li>
+            <a href="all-hostels.html" class="mobile-nav-link">
+              All Hostels
+            </a>
+          </li>
+          <li>
+            <a href="#how-it-works" class="mobile-nav-link">
+              How It Works
+            </a>
+          </li>
+          <li>
+            <a href="#why-us" class="mobile-nav-link">
+              Why Us
+            </a>
+          </li>
+          <li>
+            <a href="#contact" class="mobile-nav-link">
+              Contact
+            </a>
+          </li>
+          <li>
+            <a href="landlord-dashboard.html" class="mobile-nav-link dashboard-link">
+              <i class="fas fa-tachometer-alt"></i> Dashboard
+            </a>
+          </li>
+          <li>
+            <a href="#" class="mobile-nav-link landlord-mobile-btn" onclick="openLandlordModal(); closeMobileMenu();">
+              <i class="fas fa-plus"></i> List Property
+            </a>
+          </li>
+        </ul>
+      </div>
     </nav>
 
     <!-- Hero Section -->
     <section id="home" class="hero">
-        <div class="hero-content">
-            <h1>Find Your Perfect Student Hostel Near Campus</h1>
-            <p>Discover verified hostels, affordable prices, and comfortable living spaces near top universities.</p>
-            
-            <!-- Search Bar -->
-            <div class="search-container">
-                <div class="search-box">
-                    <i class="fas fa-search"></i>
-                    <input type="text" id="searchInput" placeholder="Search by university, location, or hostel name...">
-                    <button class="search-btn" onclick="handleSearch()">Search</button>
-                </div>
-                
-                <!-- Filter Options -->
-                <div class="filter-options">
-                    <select id="priceFilter" onchange="filterHostels()">
-                        <option value="">Price Range</option>
-                        <option value="0-300">Under ₦300k</option>
-                        <option value="300-500">₦300k - ₦500k</option>
-                        <option value="500-800">₦500k - ₦800k</option>
-                        <option value="800+">₦800k+</option>
-                    </select>
-                    <select id="roomTypeFilter" onchange="filterHostels()">
-                        <option value="">Room Type</option>
-                        <option value="single">Single Room</option>
-                        <option value="shared">Shared Room</option>
-                        <option value="self-contain">Self-Contain</option>
-                        <option value="apartment">Apartment</option>
-                    </select>
-                    <select id="distanceFilter" onchange="filterHostels()">
-                        <option value="">Distance from Campus</option>
-                        <option value="0-1">0-1 km</option>
-                        <option value="1-3">1-3 km</option>
-                        <option value="3-5">3-5 km</option>
-                        <option value="5+">5+ km</option>
-                    </select>
-                </div>
-            </div>
-            
-            <div class="hero-stats">
-                <div class="stat">
-                    <span class="stat-number">500+</span>
-                    <span class="stat-label">Verified Hostels</span>
-                </div>
-                <div class="stat">
-                    <span class="stat-number">50+</span>
-                    <span class="stat-label">Universities</span>
-                </div>
-                <div class="stat">
-                    <span class="stat-number">10k+</span>
-                    <span class="stat-label">Happy Students</span>
-                </div>
-            </div>
+      <div class="hero-content">
+        <h1>Find Your Perfect Student Hostel Near Campus</h1>
+        <p>
+          Discover verified hostels, affordable prices, and comfortable living
+          spaces near top universities.
+        </p>
+
+        <!-- Search Bar -->
+        <div class="search-container">
+          <div class="search-box">
+            <i class="fas fa-search"></i>
+            <input
+              type="text"
+              id="searchInput"
+              placeholder="Search by university, location, or hostel name..."
+            />
+            <button class="search-btn" onclick="handleSearch()">Search</button>
+          </div>
+
+          <!-- Filter Options -->
+          <div class="filter-options">
+            <select id="priceFilter" onchange="filterHostels()">
+              <option value="">Price Range</option>
+              <option value="0-300">Under ₦300k</option>
+              <option value="300-500">₦300k - ₦500k</option>
+              <option value="500-800">₦500k - ₦800k</option>
+              <option value="800+">₦800k+</option>
+            </select>
+            <select id="roomTypeFilter" onchange="filterHostels()">
+              <option value="">Room Type</option>
+              <option value="single">Single Room</option>
+              <option value="shared">Shared Room</option>
+              <option value="self-contain">Self-Contain</option>
+              <option value="apartment">Apartment</option>
+            </select>
+            <select id="distanceFilter" onchange="filterHostels()">
+              <option value="">Distance from Campus</option>
+              <option value="0-1">0-1 km</option>
+              <option value="1-3">1-3 km</option>
+              <option value="3-5">3-5 km</option>
+              <option value="5+">5+ km</option>
+            </select>
+          </div>
         </div>
+
+        <div class="hero-stats">
+          <div class="stat">
+            <span class="stat-number">500+</span>
+            <span class="stat-label">Verified Hostels</span>
+          </div>
+          <div class="stat">
+            <span class="stat-number">50+</span>
+            <span class="stat-label">Universities</span>
+          </div>
+          <div class="stat">
+            <span class="stat-number">10k+</span>
+            <span class="stat-label">Happy Students</span>
+          </div>
+        </div>
+      </div>
     </section>
 
     <!-- Featured Hostels Section -->
     <section id="hostels" class="featured-hostels">
-        <div class="container">
-            <div class="section-header">
-                <h2>Featured Hostels</h2>
-                <p>Handpicked accommodations for students</p>
-            </div>
-            
-            <div class="hostel-grid" id="hostelGrid">
-                <!-- Hostel Card 1 -->
-                <div class="hostel-card" data-price="350000" data-distance="0.5" data-type="self-contain">
-                    <div class="hostel-image">
-                        <img src="https://images.unsplash.com/photo-1555854877-bab0e564b8d5?w=400&h=300&fit=crop" alt="Royal Nest Hostel">
-                        <span class="verified-badge"><i class="fas fa-check-circle"></i> Verified</span>
-                        <span class="featured-tag">Popular</span>
-                    </div>
-                    <div class="hostel-info">
-                        <h3>Royal Nest Hostel</h3>
-                        <p class="location"><i class="fas fa-map-marker-alt"></i> UI Road, Opp. University of Ibadan</p>
-                        <div class="hostel-features">
-                            <span><i class="fas fa-bed"></i> Self-Contain</span>
-                            <span><i class="fas fa-ruler-combined"></i> 12x14 ft</span>
-                            <span><i class="fas fa-wifi"></i> WiFi</span>
-                        </div>
-                        <div class="hostel-price">
-                            <span class="price">₦350,000</span>
-                            <span class="per-year">/year</span>
-                            <span class="distance"><i class="fas fa-location-arrow"></i> 0.5 km to campus</span>
-                        </div>
-                        <div class="hostel-actions">
-                            <button class="btn-primary" onclick="openHostelModal('Royal Nest Hostel')">View Details</button>
-                            <div class="contact-btns">
-                                <a href="tel:+2348012345678" class="btn-call"><i class="fas fa-phone"></i></a>
-                                <a href="https://wa.me/2348012345678" class="btn-whatsapp" target="_blank"><i class="fab fa-whatsapp"></i></a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Hostel Card 2 -->
-                <div class="hostel-card" data-price="280000" data-distance="1.2" data-type="shared">
-                    <div class="hostel-image">
-                        <img src="https://images.unsplash.com/photo-1522771739844-6a9f6d5f14af?w=400&h=300&fit=crop" alt="Student Haven">
-                        <span class="verified-badge"><i class="fas fa-check-circle"></i> Verified</span>
-                    </div>
-                    <div class="hostel-info">
-                        <h3>Student Haven</h3>
-                        <p class="location"><i class="fas fa-map-marker-alt"></i> Akoka Road, UNILAG</p>
-                        <div class="hostel-features">
-                            <span><i class="fas fa-bed"></i> 2-Bed Shared</span>
-                            <span><i class="fas fa-ruler-combined"></i> 10x12 ft</span>
-                            <span><i class="fas fa-bolt"></i> 24/7 Light</span>
-                        </div>
-                        <div class="hostel-price">
-                            <span class="price">₦280,000</span>
-                            <span class="per-year">/year</span>
-                            <span class="distance"><i class="fas fa-location-arrow"></i> 1.2 km to campus</span>
-                        </div>
-                        <div class="hostel-actions">
-                            <button class="btn-primary" onclick="openHostelModal('Student Haven')">View Details</button>
-                            <div class="contact-btns">
-                                <a href="tel:+2348012345679" class="btn-call"><i class="fas fa-phone"></i></a>
-                                <a href="https://wa.me/2348012345679" class="btn-whatsapp" target="_blank"><i class="fab fa-whatsapp"></i></a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Hostel Card 3 -->
-                <div class="hostel-card" data-price="450000" data-distance="0.8" data-type="single">
-                    <div class="hostel-image">
-                        <img src="https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=400&h=300&fit=crop" alt="Scholar's Lodge">
-                        <span class="verified-badge"><i class="fas fa-check-circle"></i> Verified</span>
-                        <span class="featured-tag">Top Rated</span>
-                    </div>
-                    <div class="hostel-info">
-                        <h3>Scholar's Lodge</h3>
-                        <p class="location"><i class="fas fa-map-marker-alt"></i> Bodija, Oyewole Estate</p>
-                        <div class="hostel-features">
-                            <span><i class="fas fa-bed"></i> Single Room</span>
-                            <span><i class="fas fa-ruler-combined"></i> 14x16 ft</span>
-                            <span><i class="fas fa-temperature-low"></i> AC Ready</span>
-                        </div>
-                        <div class="hostel-price">
-                            <span class="price">₦450,000</span>
-                            <span class="per-year">/year</span>
-                            <span class="distance"><i class="fas fa-location-arrow"></i> 0.8 km to campus</span>
-                        </div>
-                        <div class="hostel-actions">
-                            <button class="btn-primary" onclick="openHostelModal('Scholar\'s Lodge')">View Details</button>
-                            <div class="contact-btns">
-                                <a href="tel:+2348012345680" class="btn-call"><i class="fas fa-phone"></i></a>
-                                <a href="https://wa.me/2348012345680" class="btn-whatsapp" target="_blank"><i class="fab fa-whatsapp"></i></a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Hostel Card 4 -->
-                <div class="hostel-card" data-price="320000" data-distance="2.0" data-type="self-contain">
-                    <div class="hostel-image">
-                        <img src="https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?w=400&h=300&fit=crop" alt="Campus View Apartments">
-                        <span class="verified-badge"><i class="fas fa-check-circle"></i> Verified</span>
-                    </div>
-                    <div class="hostel-info">
-                        <h3>Campus View Apartments</h3>
-                        <p class="location"><i class="fas fa-map-marker-alt"></i> Gwagwalada, Abuja</p>
-                        <div class="hostel-features">
-                            <span><i class="fas fa-bed"></i> Self-Contain</span>
-                            <span><i class="fas fa-ruler-combined"></i> 12x12 ft</span>
-                            <span><i class="fas fa-parking"></i> Parking</span>
-                        </div>
-                        <div class="hostel-price">
-                            <span class="price">₦320,000</span>
-                            <span class="per-year">/year</span>
-                            <span class="distance"><i class="fas fa-location-arrow"></i> 2.0 km to campus</span>
-                        </div>
-                        <div class="hostel-actions">
-                            <button class="btn-primary" onclick="openHostelModal('Campus View Apartments')">View Details</button>
-                            <div class="contact-btns">
-                                <a href="tel:+2348012345681" class="btn-call"><i class="fas fa-phone"></i></a>
-                                <a href="https://wa.me/2348012345681" class="btn-whatsapp" target="_blank"><i class="fab fa-whatsapp"></i></a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Hostel Card 5 -->
-                <div class="hostel-card" data-price="200000" data-distance="3.5" data-type="shared">
-                    <div class="hostel-image">
-                        <img src="https://images.unsplash.com/photo-1536376072261-38c75010e6c9?w=400&h=300&fit=crop" alt="Budget Stay Hostel">
-                        <span class="verified-badge"><i class="fas fa-check-circle"></i> Verified</span>
-                    </div>
-                    <div class="hostel-info">
-                        <h3>Budget Stay Hostel</h3>
-                        <p class="location"><i class="fas fa-map-marker-alt"></i> Ojo, Lagos State University</p>
-                        <div class="hostel-features">
-                            <span><i class="fas fa-bed"></i> 4-Bed Shared</span>
-                            <span><i class="fas fa-ruler-combined"></i> 8x10 ft</span>
-                            <span><i class="fas fa-utensils"></i> Kitchen</span>
-                        </div>
-                        <div class="hostel-price">
-                            <span class="price">₦200,000</span>
-                            <span class="per-year">/year</span>
-                            <span class="distance"><i class="fas fa-location-arrow"></i> 3.5 km to campus</span>
-                        </div>
-                        <div class="hostel-actions">
-                            <button class="btn-primary" onclick="openHostelModal('Budget Stay Hostel')">View Details</button>
-                            <div class="contact-btns">
-                                <a href="tel:+2348012345682" class="btn-call"><i class="fas fa-phone"></i></a>
-                                <a href="https://wa.me/2348012345682" class="btn-whatsapp" target="_blank"><i class="fab fa-whatsapp"></i></a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Hostel Card 6 -->
-                <div class="hostel-card" data-price="550000" data-distance="0.3" data-type="apartment">
-                    <div class="hostel-image">
-                        <img src="https://images.unsplash.com/photo-1493809842364-78817add7ffb?w=400&h=300&fit=crop" alt="Premier Student Suites">
-                        <span class="verified-badge"><i class="fas fa-check-circle"></i> Verified</span>
-                        <span class="featured-tag">Premium</span>
-                    </div>
-                    <div class="hostel-info">
-                        <h3>Premier Student Suites</h3>
-                        <p class="location"><i class="fas fa-map-marker-alt"></i> Zaria Road, ABU Zaria</p>
-                        <div class="hostel-features">
-                            <span><i class="fas fa-bed"></i> 2-Bed Apartment</span>
-                            <span><i class="fas fa-ruler-combined"></i> 16x18 ft</span>
-                            <span><i class="fas fa-shower"></i> Hot Water</span>
-                        </div>
-                        <div class="hostel-price">
-                            <span class="price">₦550,000</span>
-                            <span class="per-year">/year</span>
-                            <span class="distance"><i class="fas fa-location-arrow"></i> 0.3 km to campus</span>
-                        </div>
-                        <div class="hostel-actions">
-                            <button class="btn-primary" onclick="openHostelModal('Premier Student Suites')">View Details</button>
-                            <div class="contact-btns">
-                                <a href="tel:+2348012345683" class="btn-call"><i class="fas fa-phone"></i></a>
-                                <a href="https://wa.me/2348012345683" class="btn-whatsapp" target="_blank"><i class="fab fa-whatsapp"></i></a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            
-<div class="view-all-container">
-                <a href="all-hostels.html" class="btn-secondary">View All Hostels</a>
-            </div>
+      <div class="container">
+        <div class="section-header">
+          <h2>Featured Hostels</h2>
+          <p>Handpicked accommodations for students</p>
         </div>
+
+        <div class="hostel-grid" id="hostelGrid">
+          <!-- Hostel Card 1 -->
+          <div
+            class="hostel-card"
+            data-price="350000"
+            data-distance="0.5"
+            data-type="self-contain"
+          >
+            <div class="hostel-image">
+              <img
+                src="https://images.unsplash.com/photo-1555854877-bab0e564b8d5?w=400&h=300&fit=crop"
+                alt="Royal Nest Hostel"
+              />
+              <span class="verified-badge"
+                ><i class="fas fa-check-circle"></i> Verified</span
+              >
+              <span class="featured-tag">Popular</span>
+            </div>
+            <div class="hostel-info">
+              <h3>Royal Nest Hostel</h3>
+              <p class="location">
+                <i class="fas fa-map-marker-alt"></i> UI Road, Opp. University
+                of Ibadan
+              </p>
+              <div class="hostel-features">
+                <span><i class="fas fa-bed"></i> Self-Contain</span>
+                <span><i class="fas fa-ruler-combined"></i> 12x14 ft</span>
+                <span><i class="fas fa-wifi"></i> WiFi</span>
+              </div>
+              <div class="hostel-price">
+                <span class="price">₦350,000</span>
+                <span class="per-year">/year</span>
+                <span class="distance"
+                  ><i class="fas fa-location-arrow"></i> 0.5 km to campus</span
+                >
+              </div>
+              <div class="hostel-actions">
+                <button
+                  class="btn-primary"
+                  onclick="openHostelModal('Royal Nest Hostel')"
+                >
+                  View Details
+                </button>
+                <div class="contact-btns">
+                  <a href="tel:+2348012345678" class="btn-call"
+                    ><i class="fas fa-phone"></i
+                  ></a>
+                  <a
+                    href="https://wa.me/2348012345678"
+                    class="btn-whatsapp"
+                    target="_blank"
+                    ><i class="fab fa-whatsapp"></i
+                  ></a>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Hostel Card 2 -->
+          <div
+            class="hostel-card"
+            data-price="280000"
+            data-distance="1.2"
+            data-type="shared"
+          >
+            <div class="hostel-image">
+              <img
+                src="https://images.unsplash.com/photo-1522771739844-6a9f6d5f14af?w=400&h=300&fit=crop"
+                alt="Student Haven"
+              />
+              <span class="verified-badge"
+                ><i class="fas fa-check-circle"></i> Verified</span
+              >
+            </div>
+            <div class="hostel-info">
+              <h3>Student Haven</h3>
+              <p class="location">
+                <i class="fas fa-map-marker-alt"></i> Akoka Road, UNILAG
+              </p>
+              <div class="hostel-features">
+                <span><i class="fas fa-bed"></i> 2-Bed Shared</span>
+                <span><i class="fas fa-ruler-combined"></i> 10x12 ft</span>
+                <span><i class="fas fa-bolt"></i> 24/7 Light</span>
+              </div>
+              <div class="hostel-price">
+                <span class="price">₦280,000</span>
+                <span class="per-year">/year</span>
+                <span class="distance"
+                  ><i class="fas fa-location-arrow"></i> 1.2 km to campus</span
+                >
+              </div>
+              <div class="hostel-actions">
+                <button
+                  class="btn-primary"
+                  onclick="openHostelModal('Student Haven')"
+                >
+                  View Details
+                </button>
+                <div class="contact-btns">
+                  <a href="tel:+2348012345679" class="btn-call"
+                    ><i class="fas fa-phone"></i
+                  ></a>
+                  <a
+                    href="https://wa.me/2348012345679"
+                    class="btn-whatsapp"
+                    target="_blank"
+                    ><i class="fab fa-whatsapp"></i
+                  ></a>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Hostel Card 3 -->
+          <div
+            class="hostel-card"
+            data-price="450000"
+            data-distance="0.8"
+            data-type="single"
+          >
+            <div class="hostel-image">
+              <img
+                src="https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=400&h=300&fit=crop"
+                alt="Scholar's Lodge"
+              />
+              <span class="verified-badge"
+                ><i class="fas fa-check-circle"></i> Verified</span
+              >
+              <span class="featured-tag">Top Rated</span>
+            </div>
+            <div class="hostel-info">
+              <h3>Scholar's Lodge</h3>
+              <p class="location">
+                <i class="fas fa-map-marker-alt"></i> Bodija, Oyewole Estate
+              </p>
+              <div class="hostel-features">
+                <span><i class="fas fa-bed"></i> Single Room</span>
+                <span><i class="fas fa-ruler-combined"></i> 14x16 ft</span>
+                <span><i class="fas fa-temperature-low"></i> AC Ready</span>
+              </div>
+              <div class="hostel-price">
+                <span class="price">₦450,000</span>
+                <span class="per-year">/year</span>
+                <span class="distance"
+                  ><i class="fas fa-location-arrow"></i> 0.8 km to campus</span
+                >
+              </div>
+              <div class="hostel-actions">
+                <button
+                  class="btn-primary"
+                  onclick="openHostelModal('Scholar\'s Lodge')"
+                >
+                  View Details
+                </button>
+                <div class="contact-btns">
+                  <a href="tel:+2348012345680" class="btn-call"
+                    ><i class="fas fa-phone"></i
+                  ></a>
+                  <a
+                    href="https://wa.me/2348012345680"
+                    class="btn-whatsapp"
+                    target="_blank"
+                    ><i class="fab fa-whatsapp"></i
+                  ></a>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Hostel Card 4 -->
+          <div
+            class="hostel-card"
+            data-price="320000"
+            data-distance="2.0"
+            data-type="self-contain"
+          >
+            <div class="hostel-image">
+              <img
+                src="https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?w=400&h=300&fit=crop"
+                alt="Campus View Apartments"
+              />
+              <span class="verified-badge"
+                ><i class="fas fa-check-circle"></i> Verified</span
+              >
+            </div>
+            <div class="hostel-info">
+              <h3>Campus View Apartments</h3>
+              <p class="location">
+                <i class="fas fa-map-marker-alt"></i> Gwagwalada, Abuja
+              </p>
+              <div class="hostel-features">
+                <span><i class="fas fa-bed"></i> Self-Contain</span>
+                <span><i class="fas fa-ruler-combined"></i> 12x12 ft</span>
+                <span><i class="fas fa-parking"></i> Parking</span>
+              </div>
+              <div class="hostel-price">
+                <span class="price">₦320,000</span>
+                <span class="per-year">/year</span>
+                <span class="distance"
+                  ><i class="fas fa-location-arrow"></i> 2.0 km to campus</span
+                >
+              </div>
+              <div class="hostel-actions">
+                <button
+                  class="btn-primary"
+                  onclick="openHostelModal('Campus View Apartments')"
+                >
+                  View Details
+                </button>
+                <div class="contact-btns">
+                  <a href="tel:+2348012345681" class="btn-call"
+                    ><i class="fas fa-phone"></i
+                  ></a>
+                  <a
+                    href="https://wa.me/2348012345681"
+                    class="btn-whatsapp"
+                    target="_blank"
+                    ><i class="fab fa-whatsapp"></i
+                  ></a>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Hostel Card 5 -->
+          <div
+            class="hostel-card"
+            data-price="200000"
+            data-distance="3.5"
+            data-type="shared"
+          >
+            <div class="hostel-image">
+              <img
+                src="https://images.unsplash.com/photo-1536376072261-38c75010e6c9?w=400&h=300&fit=crop"
+                alt="Budget Stay Hostel"
+              />
+              <span class="verified-badge"
+                ><i class="fas fa-check-circle"></i> Verified</span
+              >
+            </div>
+            <div class="hostel-info">
+              <h3>Budget Stay Hostel</h3>
+              <p class="location">
+                <i class="fas fa-map-marker-alt"></i> Ojo, Lagos State
+                University
+              </p>
+              <div class="hostel-features">
+                <span><i class="fas fa-bed"></i> 4-Bed Shared</span>
+                <span><i class="fas fa-ruler-combined"></i> 8x10 ft</span>
+                <span><i class="fas fa-utensils"></i> Kitchen</span>
+              </div>
+              <div class="hostel-price">
+                <span class="price">₦200,000</span>
+                <span class="per-year">/year</span>
+                <span class="distance"
+                  ><i class="fas fa-location-arrow"></i> 3.5 km to campus</span
+                >
+              </div>
+              <div class="hostel-actions">
+                <button
+                  class="btn-primary"
+                  onclick="openHostelModal('Budget Stay Hostel')"
+                >
+                  View Details
+                </button>
+                <div class="contact-btns">
+                  <a href="tel:+2348012345682" class="btn-call"
+                    ><i class="fas fa-phone"></i
+                  ></a>
+                  <a
+                    href="https://wa.me/2348012345682"
+                    class="btn-whatsapp"
+                    target="_blank"
+                    ><i class="fab fa-whatsapp"></i
+                  ></a>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Hostel Card 6 -->
+          <div
+            class="hostel-card"
+            data-price="550000"
+            data-distance="0.3"
+            data-type="apartment"
+          >
+            <div class="hostel-image">
+              <img
+                src="https://images.unsplash.com/photo-1493809842364-78817add7ffb?w=400&h=300&fit=crop"
+                alt="Premier Student Suites"
+              />
+              <span class="verified-badge"
+                ><i class="fas fa-check-circle"></i> Verified</span
+              >
+              <span class="featured-tag">Premium</span>
+            </div>
+            <div class="hostel-info">
+              <h3>Premier Student Suites</h3>
+              <p class="location">
+                <i class="fas fa-map-marker-alt"></i> Zaria Road, ABU Zaria
+              </p>
+              <div class="hostel-features">
+                <span><i class="fas fa-bed"></i> 2-Bed Apartment</span>
+                <span><i class="fas fa-ruler-combined"></i> 16x18 ft</span>
+                <span><i class="fas fa-shower"></i> Hot Water</span>
+              </div>
+              <div class="hostel-price">
+                <span class="price">₦550,000</span>
+                <span class="per-year">/year</span>
+                <span class="distance"
+                  ><i class="fas fa-location-arrow"></i> 0.3 km to campus</span
+                >
+              </div>
+              <div class="hostel-actions">
+                <button
+                  class="btn-primary"
+                  onclick="openHostelModal('Premier Student Suites')"
+                >
+                  View Details
+                </button>
+                <div class="contact-btns">
+                  <a href="tel:+2348012345683" class="btn-call"
+                    ><i class="fas fa-phone"></i
+                  ></a>
+                  <a
+                    href="https://wa.me/2348012345683"
+                    class="btn-whatsapp"
+                    target="_blank"
+                    ><i class="fab fa-whatsapp"></i
+                  ></a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="view-all-container">
+          <a href="all-hostels.html" class="btn-secondary">View All Hostels</a>
+        </div>
+      </div>
     </section>
 
     <!-- How It Works Section -->
     <section id="how-it-works" class="how-it-works">
-        <div class="container">
-            <div class="section-header">
-                <h2>How It Works</h2>
-                <p>Find your perfect hostel in 3 simple steps</p>
-            </div>
-            
-            <div class="steps-container">
-                <div class="step">
-                    <div class="step-icon">
-                        <i class="fas fa-search"></i>
-                    </div>
-                    <h3>Search</h3>
-                    <p>Browse through hundreds of verified hostels near your university</p>
-                </div>
-                
-                <div class="step-connector">
-                    <i class="fas fa-arrow-right"></i>
-                </div>
-                
-                <div class="step">
-                    <div class="step-icon">
-                        <i class="fas fa-calendar-check"></i>
-                    </div>
-                    <h3>Book</h3>
-                    <p>Schedule a visit or book directly through our platform</p>
-                </div>
-                
-                <div class="step-connector">
-                    <i class="fas fa-arrow-right"></i>
-                </div>
-                
-                <div class="step">
-                    <div class="step-icon">
-                        <i class="fas fa-home"></i>
-                    </div>
-                    <h3>Move In</h3>
-                    <p>Enjoy your new home with verified amenities and secure payments</p>
-                </div>
-            </div>
+      <div class="container">
+        <div class="section-header">
+          <h2>How It Works</h2>
+          <p>Find your perfect hostel in 3 simple steps</p>
         </div>
+
+        <div class="steps-container">
+          <div class="step">
+            <div class="step-icon">
+              <i class="fas fa-search"></i>
+            </div>
+            <h3>Search</h3>
+            <p>
+              Browse through hundreds of verified hostels near your university
+            </p>
+          </div>
+
+          <div class="step-connector">
+            <i class="fas fa-arrow-right"></i>
+          </div>
+
+          <div class="step">
+            <div class="step-icon">
+              <i class="fas fa-calendar-check"></i>
+            </div>
+            <h3>Book</h3>
+            <p>Schedule a visit or book directly through our platform</p>
+          </div>
+
+          <div class="step-connector">
+            <i class="fas fa-arrow-right"></i>
+          </div>
+
+          <div class="step">
+            <div class="step-icon">
+              <i class="fas fa-home"></i>
+            </div>
+            <h3>Move In</h3>
+            <p>
+              Enjoy your new home with verified amenities and secure payments
+            </p>
+          </div>
+        </div>
+      </div>
     </section>
 
     <!-- Why Students Use Easy Hostel -->
     <section id="why-us" class="why-us">
-        <div class="container">
-            <div class="section-header">
-                <h2>Why Students Choose Easy Hostel</h2>
-                <p>We make your accommodation search stress-free</p>
-            </div>
-            
-            <div class="features-grid">
-                <div class="feature-card">
-                    <div class="feature-icon">
-                        <i class="fas fa-shield-alt"></i>
-                    </div>
-                    <h3>Verified Listings</h3>
-                    <p>All hostels are physically verified by our team to ensure quality and safety</p>
-                </div>
-                
-                <div class="feature-card">
-                    <div class="feature-icon">
-                        <i class="fas fa-money-bill-wave"></i>
-                    </div>
-                    <h3>Best Price Guarantee</h3>
-                    <p>Compare prices across multiple hostels and get the best deals available</p>
-                </div>
-                
-                <div class="feature-card">
-                    <div class="feature-icon">
-                        <i class="fas fa-clock"></i>
-                    </div>
-                    <h3>Save Time</h3>
-                    <p>No more visiting multiple locations. Find and book from the comfort of your home</p>
-                </div>
-                
-                <div class="feature-card">
-                    <div class="feature-icon">
-                        <i class="fas fa-headset"></i>
-                    </div>
-                    <h3>24/7 Support</h3>
-                    <p>Our support team is always available to help you with any issues</p>
-                </div>
-            </div>
+      <div class="container">
+        <div class="section-header">
+          <h2>Why Students Choose Easy Hostel</h2>
+          <p>We make your accommodation search stress-free</p>
         </div>
+
+        <div class="features-grid">
+          <div class="feature-card">
+            <div class="feature-icon">
+              <i class="fas fa-shield-alt"></i>
+            </div>
+            <h3>Verified Listings</h3>
+            <p>
+              All hostels are physically verified by our team to ensure quality
+              and safety
+            </p>
+          </div>
+
+          <div class="feature-card">
+            <div class="feature-icon">
+              <i class="fas fa-money-bill-wave"></i>
+            </div>
+            <h3>Best Price Guarantee</h3>
+            <p>
+              Compare prices across multiple hostels and get the best deals
+              available
+            </p>
+          </div>
+
+          <div class="feature-card">
+            <div class="feature-icon">
+              <i class="fas fa-clock"></i>
+            </div>
+            <h3>Save Time</h3>
+            <p>
+              No more visiting multiple locations. Find and book from the
+              comfort of your home
+            </p>
+          </div>
+
+          <div class="feature-card">
+            <div class="feature-icon">
+              <i class="fas fa-headset"></i>
+            </div>
+            <h3>24/7 Support</h3>
+            <p>
+              Our support team is always available to help you with any issues
+            </p>
+          </div>
+        </div>
+      </div>
     </section>
 
     <!-- Universities We Serve -->
     <section id="universities" class="universities">
-        <div class="container">
-            <div class="section-header">
-                <h2>Universities We Serve</h2>
-                <p>Find hostels near top universities across Nigeria</p>
-            </div>
-            
-            <div class="universities-grid">
-                <div class="university-card">
-                    <i class="fas fa-university"></i>
-                    <h3>University of Ibadan</h3>
-                    <p>150+ Hostels</p>
-                </div>
-                <div class="university-card">
-                    <i class="fas fa-university"></i>
-                    <h3>UNILAG</h3>
-                    <p>120+ Hostels</p>
-                </div>
-                <div class="university-card">
-                    <i class="fas fa-university"></i>
-                    <h3>OAU Ile-Ife</h3>
-                    <p>100+ Hostels</p>
-                </div>
-                <div class="university-card">
-                    <i class="fas fa-university"></i>
-                    <h3>UNIBEN</h3>
-                    <p>90+ Hostels</p>
-                </div>
-                <div class="university-card">
-                    <i class="fas fa-university"></i>
-                    <h3>ABU Zaria</h3>
-                    <p>85+ Hostels</p>
-                </div>
-                <div class="university-card">
-                    <i class="fas fa-university"></i>
-                    <h3>LASU</h3>
-                    <p>80+ Hostels</p>
-                </div>
-                <div class="university-card">
-                    <i class="fas fa-university"></i>
-                    <h3>UNN</h3>
-                    <p>75+ Hostels</p>
-                </div>
-                <div class="university-card">
-                    <i class="fas fa-plus"></i>
-                    <h3>Many More</h3>
-                    <p>50+ Universities</p>
-                </div>
-            </div>
+      <div class="container">
+        <div class="section-header">
+          <h2>Universities We Serve</h2>
+          <p>Find hostels near top universities across Nigeria</p>
         </div>
+
+        <div class="universities-grid">
+          <div class="university-card">
+            <i class="fas fa-university"></i>
+            <h3>University of Ibadan</h3>
+            <p>150+ Hostels</p>
+          </div>
+          <div class="university-card">
+            <i class="fas fa-university"></i>
+            <h3>UNILAG</h3>
+            <p>120+ Hostels</p>
+          </div>
+          <div class="university-card">
+            <i class="fas fa-university"></i>
+            <h3>OAU Ile-Ife</h3>
+            <p>100+ Hostels</p>
+          </div>
+          <div class="university-card">
+            <i class="fas fa-university"></i>
+            <h3>UNIBEN</h3>
+            <p>90+ Hostels</p>
+          </div>
+          <div class="university-card">
+            <i class="fas fa-university"></i>
+            <h3>ABU Zaria</h3>
+            <p>85+ Hostels</p>
+          </div>
+          <div class="university-card">
+            <i class="fas fa-university"></i>
+            <h3>LASU</h3>
+            <p>80+ Hostels</p>
+          </div>
+          <div class="university-card">
+            <i class="fas fa-university"></i>
+            <h3>UNN</h3>
+            <p>75+ Hostels</p>
+          </div>
+          <div class="university-card">
+            <i class="fas fa-plus"></i>
+            <h3>Many More</h3>
+            <p>50+ Universities</p>
+          </div>
+        </div>
+      </div>
     </section>
 
     <!-- Call to Action Section -->
     <section id="contact" class="cta-section">
-        <div class="container">
-            <div class="cta-content">
-                <h2>Ready to Find Your Perfect Hostel?</h2>
-                <p>Join thousands of students who found their dream accommodation through Easy Hostel</p>
-                <div class="cta-buttons">
-                    <button class="btn-cta-primary" onclick="document.getElementById('searchInput').focus()">
-                        <i class="fas fa-search"></i> Search Now
-                    </button>
-                    <button class="btn-cta-secondary" onclick="openLandlordModal()">
-                        <i class="fas fa-building"></i> List Your Property
-                    </button>
-                </div>
-            </div>
+      <div class="container">
+        <div class="cta-content">
+          <h2>Ready to Find Your Perfect Hostel?</h2>
+          <p>
+            Join thousands of students who found their dream accommodation
+            through Easy Hostel
+          </p>
+          <div class="cta-buttons">
+            <button
+              class="btn-cta-primary"
+              onclick="document.getElementById('searchInput').focus()"
+            >
+              <i class="fas fa-search"></i> Search Now
+            </button>
+            <button class="btn-cta-secondary" onclick="openLandlordModal()">
+              <i class="fas fa-building"></i> List Your Property
+            </button>
+          </div>
         </div>
+      </div>
     </section>
 
     <!-- Footer -->
     <footer class="footer">
-        <div class="container">
-            <div class="footer-content">
-                <div class="footer-section">
-                    <h4>Easy Hostel</h4>
-                    <p>Your trusted partner in finding the perfect student accommodation near campus.</p>
-                    <div class="social-links">
-                        <a href="#"><i class="fab fa-facebook"></i></a>
-                        <a href="#"><i class="fab fa-twitter"></i></a>
-                        <a href="#"><i class="fab fa-instagram"></i></a>
-                        <a href="#"><i class="fab fa-linkedin"></i></a>
-                    </div>
-                </div>
-                
-                <div class="footer-section">
-                    <h4>Quick Links</h4>
-                    <ul>
-                        <li><a href="#home">Home</a></li>
-                        <li><a href="#hostels">Hostels</a></li>
-                        <li><a href="#how-it-works">How It Works</a></li>
-                        <li><a href="#why-us">Why Us</a></li>
-                    </ul>
-                </div>
-                
-                <div class="footer-section">
-                    <h4>For Landlords</h4>
-                    <ul>
-                        <li><a href="#" onclick="openLandlordModal()">List Your Property</a></li>
-                        <li><a href="#">Advertise With Us</a></li>
-                        <li><a href="#">Landlord Dashboard</a></li>
-                    </ul>
-                </div>
-                
-                <div class="footer-section">
-                    <h4>Contact Us</h4>
-                    <ul>
-                        <li><i class="fas fa-phone"></i> +234 810 522 7835</li>
-                        <li><i class="fas fa-envelope"></i> info@easyhostel.com</li>
-                        <li><i class="fas fa-map-marker-alt"></i> Lagos, Nigeria</li>
-                    </ul>
-                </div>
+      <div class="container">
+        <div class="footer-content">
+          <div class="footer-section">
+            <h4>Easy Hostel</h4>
+            <p>
+              Your trusted partner in finding the perfect student accommodation
+              near campus.
+            </p>
+            <div class="social-links">
+              <a href="#"><i class="fab fa-facebook"></i></a>
+              <a href="#"><i class="fab fa-twitter"></i></a>
+              <a href="#"><i class="fab fa-instagram"></i></a>
+              <a href="#"><i class="fab fa-linkedin"></i></a>
             </div>
-            
-            <div class="footer-bottom">
-                <p>&copy; 2025 Easy Hostel. All rights reserved.</p>
-            </div>
+          </div>
+
+          <div class="footer-section">
+            <h4>Quick Links</h4>
+            <ul>
+              <li><a href="#home">Home</a></li>
+              <li><a href="#hostels">Hostels</a></li>
+              <li><a href="#how-it-works">How It Works</a></li>
+              <li><a href="#why-us">Why Us</a></li>
+            </ul>
+          </div>
+
+          <div class="footer-section">
+            <h4>For Landlords</h4>
+            <ul>
+              <li>
+                <a href="#" onclick="openLandlordModal()">List Your Property</a>
+              </li>
+              <li><a href="#">Advertise With Us</a></li>
+              <li><a href="#">Landlord Dashboard</a></li>
+            </ul>
+          </div>
+
+          <div class="footer-section">
+            <h4>Contact Us</h4>
+            <ul>
+              <li><i class="fas fa-phone"></i> +234 810 522 7835</li>
+              <li><i class="fas fa-envelope"></i> info@easyhostel.com</li>
+              <li><i class="fas fa-map-marker-alt"></i> Lagos, Nigeria</li>
+            </ul>
+          </div>
         </div>
+
+        <div class="footer-bottom">
+          <p>&copy; 2025 Easy Hostel. All rights reserved.</p>
+        </div>
+      </div>
     </footer>
 
     <!-- Hostel Details Modal -->
     <div id="hostelModal" class="modal">
-        <div class="modal-content">
-            <span class="close-modal" onclick="closeHostelModal()">&times;</span>
-            <div id="modalBody">
-                <!-- Dynamic content will be loaded here -->
-            </div>
+      <div class="modal-content">
+        <span class="close-modal" onclick="closeHostelModal()">&times;</span>
+        <div id="modalBody">
+          <!-- Dynamic content will be loaded here -->
         </div>
+      </div>
     </div>
 
     <!-- Landlord Listing Form Modal -->
     <div id="landlordModal" class="modal">
-        <div class="modal-content modal-large">
-            <span class="close-modal" onclick="closeLandlordModal()">&times;</span>
-            <div class="modal-header">
-                <h2>List Your Property</h2>
-                <p>Fill in the details to list your hostel on Easy Hostel</p>
-            </div>
-            <form id="landlordForm" onsubmit="submitLandlordForm(event)">
-                <div class="form-grid">
-                    <div class="form-group">
-                        <label for="propertyName">Property Name *</label>
-                        <input type="text" id="propertyName" name="propertyName" required placeholder="e.g., Royal Nest Hostel">
-                    </div>
-                    <div class="form-group">
-                        <label for="propertyType">Property Type *</label>
-                        <select id="propertyType" name="propertyType" required>
-                            <option value="">Select Type</option>
-                            <option value="single">Single Room</option>
-                            <option value="shared">Shared Room</option>
-                            <option value="self-contain">Self-Contain</option>
-                            <option value="apartment">Apartment</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="university">Nearest University *</label>
-                        <select id="university" name="university" required>
-                            <option value="">Select University</option>
-                            <option value="ui">University of Ibadan</option>
-                            <option value="unilag">UNILAG</option>
-                            <option value="oau">OAU Ile-Ife</option>
-                            <option value="uniben">UNIBEN</option>
-                            <option value="abu">ABU Zaria</option>
-                            <option value="lasu">LASU</option>
-                            <option value="unn">UNN</option>
-                            <option value="other">Other</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="distance">Distance from Campus (km) *</label>
-                        <input type="number" id="distance" name="distance" step="0.1" required placeholder="e.g., 1.5">
-                    </div>
-                    <div class="form-group">
-                        <label for="price">Price per Year (₦) *</label>
-                        <input type="number" id="price" name="price" required placeholder="e.g., 350000">
-                    </div>
-                    <div class="form-group">
-                        <label for="rooms">Number of Rooms</label>
-                        <input type="number" id="rooms" name="rooms" placeholder="e.g., 20">
-                    </div>
-                    <div class="form-group">
-                        <label for="ownerName">Your Name *</label>
-                        <input type="text" id="ownerName" name="ownerName" required placeholder="Your full name">
-                    </div>
-                    <div class="form-group">
-                        <label for="phone">Phone Number *</label>
-                        <input type="tel" id="phone" name="phone" required placeholder="e.g., +2348012345678">
-                    </div>
-                    <div class="form-group full-width">
-                        <label for="address">Full Address *</label>
-                        <textarea id="address" name="address" rows="3" required placeholder="Enter complete address"></textarea>
-                    </div>
-                    <div class="form-group full-width">
-                        <label for="amenities">Amenities (select all that apply)</label>
-                        <div class="checkbox-group">
-                            <label><input type="checkbox" name="amenities" value="wifi"> WiFi</label>
-                            <label><input type="checkbox" name="amenities" value="light"> 24/7 Light</label>
-                            <label><input type="checkbox" name="amenities" value="water"> Water</label>
-                            <label><input type="checkbox" name="amenities" value="security"> Security</label>
-                            <label><input type="checkbox" name="amenities" value="parking"> Parking</label>
-                            <label><input type="checkbox" name="amenities" value="kitchen"> Kitchen</label>
-                            <label><input type="checkbox" name="amenities" value="laundry"> Laundry</label>
-                            <label><input type="checkbox" name="amenities" value="ac"> AC Ready</label>
-                        </div>
-                    </div>
-                    <div class="form-group full-width">
-                        <label for="description">Property Description</label>
-                        <textarea id="description" name="description" rows="4" placeholder="Describe your property..."></textarea>
-                    </div>
-                </div>
-                <button type="submit" class="btn-submit">Submit Listing</button>
-            </form>
+      <div class="modal-content modal-large">
+        <span class="close-modal" onclick="closeLandlordModal()">&times;</span>
+        <div class="modal-header">
+          <h2>List Your Property</h2>
+          <p>Fill in the details to list your hostel on Easy Hostel</p>
         </div>
+        <form id="landlordForm" onsubmit="submitLandlordForm(event)">
+          <div class="form-grid">
+            <div class="form-group">
+              <label for="propertyName">Property Name *</label>
+              <input
+                type="text"
+                id="propertyName"
+                name="propertyName"
+                required
+                placeholder="e.g., Royal Nest Hostel"
+              />
+            </div>
+            <div class="form-group">
+              <label for="propertyType">Property Type *</label>
+              <select id="propertyType" name="propertyType" required>
+                <option value="">Select Type</option>
+                <option value="single">Single Room</option>
+                <option value="shared">Shared Room</option>
+                <option value="self-contain">Self-Contain</option>
+                <option value="apartment">Apartment</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="university">Nearest University *</label>
+              <select id="university" name="university" required>
+                <option value="">Select University</option>
+                <option value="ui">University of Ibadan</option>
+                <option value="unilag">UNILAG</option>
+                <option value="oau">OAU Ile-Ife</option>
+                <option value="uniben">UNIBEN</option>
+                <option value="abu">ABU Zaria</option>
+                <option value="lasu">LASU</option>
+                <option value="unn">UNN</option>
+                <option value="other">Other</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="distance">Distance from Campus (km) *</label>
+              <input
+                type="number"
+                id="distance"
+                name="distance"
+                step="0.1"
+                required
+                placeholder="e.g., 1.5"
+              />
+            </div>
+            <div class="form-group">
+              <label for="price">Price per Year (₦) *</label>
+              <input
+                type="number"
+                id="price"
+                name="price"
+                required
+                placeholder="e.g., 350000"
+              />
+            </div>
+            <div class="form-group">
+              <label for="rooms">Number of Rooms</label>
+              <input
+                type="number"
+                id="rooms"
+                name="rooms"
+                placeholder="e.g., 20"
+              />
+            </div>
+            <div class="form-group">
+              <label for="ownerName">Your Name *</label>
+              <input
+                type="text"
+                id="ownerName"
+                name="ownerName"
+                required
+                placeholder="Your full name"
+              />
+            </div>
+            <div class="form-group">
+              <label for="phone">Phone Number *</label>
+              <input
+                type="tel"
+                id="phone"
+                name="phone"
+                required
+                placeholder="e.g., +2348012345678"
+              />
+            </div>
+            <div class="form-group full-width">
+              <label for="address">Full Address *</label>
+              <textarea
+                id="address"
+                name="address"
+                rows="3"
+                required
+                placeholder="Enter complete address"
+              ></textarea>
+            </div>
+            <div class="form-group full-width">
+              <label for="amenities">Amenities (select all that apply)</label>
+              <div class="checkbox-group">
+                <label
+                  ><input type="checkbox" name="amenities" value="wifi" />
+                  WiFi</label
+                >
+                <label
+                  ><input type="checkbox" name="amenities" value="light" /> 24/7
+                  Light</label
+                >
+                <label
+                  ><input type="checkbox" name="amenities" value="water" />
+                  Water</label
+                >
+                <label
+                  ><input type="checkbox" name="amenities" value="security" />
+                  Security</label
+                >
+                <label
+                  ><input type="checkbox" name="amenities" value="parking" />
+                  Parking</label
+                >
+                <label
+                  ><input type="checkbox" name="amenities" value="kitchen" />
+                  Kitchen</label
+                >
+                <label
+                  ><input type="checkbox" name="amenities" value="laundry" />
+                  Laundry</label
+                >
+                <label
+                  ><input type="checkbox" name="amenities" value="ac" /> AC
+                  Ready</label
+                >
+              </div>
+            </div>
+            <div class="form-group full-width">
+              <label for="description">Property Description</label>
+              <textarea
+                id="description"
+                name="description"
+                rows="4"
+                placeholder="Describe your property..."
+              ></textarea>
+            </div>
+          </div>
+          <button type="submit" class="btn-submit">Submit Listing</button>
+        </form>
+      </div>
     </div>
 
     <!-- Success Message -->
     <div id="successMessage" class="success-message">
-        <i class="fas fa-check-circle"></i>
-        <span id="successText">Success!</span>
+      <i class="fas fa-check-circle"></i>
+      <span id="successText">Success!</span>
     </div>
 
-    <script src="script.js"></script>
-</body>
+    <script src="./script.js"></script>
+    <script>
+      
+      document.addEventListener("DOMContentLoaded", function () {
+        console.log("✅ DOM loaded - script.js functions available");
+
+        // Test landlord modal function
+        window.openLandlordModal =
+          window.openLandlordModal ||
+          function () {
+            console.log("🛡️ Fallback: openLandlordModal called");
+            const modal = document.getElementById("landlordModal");
+            if (modal) {
+              modal.classList.add("active");
+              document.body.style.overflow = "hidden";
+              console.log("✅ Modal opened via fallback");
+            }
+          };
+
+        // Ensure global access
+        window.closeLandlordModal =
+          window.closeLandlordModal ||
+          function () {
+            const modal = document.getElementById("landlordModal");
+            if (modal) {
+              modal.classList.remove("active");
+              document.body.style.overflow = "auto";
+            }
+          };
+      });
+    </script>
+  </body>
 </html>
