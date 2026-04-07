@@ -39,48 +39,53 @@
         <button class="landlord-btn" onclick="openLandlordModal()">
           <i class="fas fa-plus"></i>List Your Property
         </button>
-        <div class="hamburger">
+        
+
+        <div class="nav-overlay" onclick="toggleMobileMenu()"></div>
+        
+        <div class="hamburger" onclick="toggleMobileMenu()">
           <span></span>
           <span></span>
           <span></span>
         </div>
 
-        <div class="nav-overlay"></div>
-
         <!-- Mobile Navigation Menu (clean, single structure) -->
         <ul class="mobile-nav">
           <li>
-            <a href="#hostels" class="mobile-nav-link">
-              Hostels
-            </a>
+            <a href="#home" class="mobile-nav-link" onclick="toggleMobileMenu()"> Home </a>
           </li>
           <li>
-            <a href="all-hostels.html" class="mobile-nav-link">
-              All Hostels
-            </a>
+            <a href="#hostels" class="mobile-nav-link" onclick="toggleMobileMenu()"> Hostels </a>
           </li>
           <li>
-            <a href="#how-it-works" class="mobile-nav-link">
-              How It Works
-            </a>
+            <a href="all-hostels.html" class="mobile-nav-link" onclick="toggleMobileMenu()"> All Hostels </a>
           </li>
           <li>
-            <a href="#why-us" class="mobile-nav-link">
-              Why Us
-            </a>
+            <a href="#how-it-works" class="mobile-nav-link" onclick="toggleMobileMenu()"> How It Works </a>
           </li>
           <li>
-            <a href="#contact" class="mobile-nav-link">
-              Contact
-            </a>
+            <a href="#why-us" class="mobile-nav-link" onclick="toggleMobileMenu()"> Why Us </a>
           </li>
           <li>
-            <a href="landlord-dashboard.html" class="mobile-nav-link dashboard-link">
+            <a href="#contact" class="mobile-nav-link" onclick="toggleMobileMenu()"> Contact </a>
+          </li>
+          <li>
+            <a
+              href="landlord-dashboard.html"
+              class="mobile-nav-link dashboard-link"
+            >
               <i class="fas fa-tachometer-alt"></i> Dashboard
             </a>
           </li>
           <li>
-            <a href="#" class="mobile-nav-link landlord-mobile-btn" onclick="openLandlordModal(); closeMobileMenu();">
+            <a
+              href="#"
+              class="mobile-nav-link landlord-mobile-btn"
+              onclick="
+                openLandlordModal();
+                closeMobileMenu();
+              "
+            >
               <i class="fas fa-plus"></i> List Property
             </a>
           </li>
@@ -912,7 +917,24 @@
 
     <script src="./script.js"></script>
     <script>
+      function toggleMobileMenu() {
+        const hamburger = document.querySelector(".hamburger");
+        const mobileNav = document.querySelector(".mobile-nav");
+        const overlay = document.querySelector(".nav-overlay");
+
+        hamburger.classList.toggle("active");
+        mobileNav.classList.toggle("active");
+        overlay.classList.toggle("active");
+
+        //Toggle icon (hamburger <-> close)
+        if (hamburger.classList.contains("active")) {
+          mobileNav.classList.add("close-icon");
+        } else {
+          mobileNav.classList.remove("close-icon");
+        }
+      }
       
+
       document.addEventListener("DOMContentLoaded", function () {
         console.log("✅ DOM loaded - script.js functions available");
 

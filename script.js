@@ -450,62 +450,62 @@ function showSuccess(message) {
 // Mobile menu toggle - Clean implementation
 
 // Mobile menu toggle
-function toggleMobileMenu() {
-  const hamburger = document.querySelector(".hamburger");
-  const mobileNav = document.querySelector(".mobile-nav");
-  const overlay = document.querySelector(".nav-overlay");
+// function toggleMobileMenu() {
+//   const hamburger = document.querySelector(".hamburger");
+//   const mobileNav = document.querySelector(".mobile-nav");
+//   const overlay = document.querySelector(".nav-overlay");
   
-  if (hamburger && mobileNav && overlay) {
-    hamburger.classList.toggle("active");
-    mobileNav.classList.toggle("active");
-    document.body.classList.toggle("nav-open");
-  }
-}
+//   if (hamburger && mobileNav && overlay) {
+//     hamburger.classList.toggle("active");
+//     mobileNav.classList.toggle("active");
+//     document.body.classList.toggle("nav-open");
+//   }
+// }
 
-// Close menu alias for HTML onclick compatibility
-function closeMobileMenu() {
-  toggleMobileMenu();
-}
+// // Close menu alias for HTML onclick compatibility
+// function closeMobileMenu() {
+//   toggleMobileMenu();
+// }
 
 // Initialize hamburger menu on DOM load
-document.addEventListener("DOMContentLoaded", function() {
-  const hamburger = document.querySelector(".hamburger");
-  const overlay = document.querySelector(".nav-overlay");
+// document.addEventListener("DOMContentLoaded", function() {
+//   const hamburger = document.querySelector(".hamburger");
+//   const overlay = document.querySelector(".nav-overlay");
   
-  if (hamburger) {
-    hamburger.addEventListener("click", function(e) {
-      e.stopPropagation();
-      toggleMobileMenu();
-    });
-  }
+//   if (hamburger) {
+//     hamburger.addEventListener("click", function(e) {
+//       e.stopPropagation();
+//       toggleMobileMenu();
+//     });
+//   }
   
-  if (overlay) {
-    overlay.addEventListener("click", toggleMobileMenu);
-  }
+//   if (overlay) {
+//     overlay.addEventListener("click", toggleMobileMenu);
+//   }
   
   // Smooth scroll + close menu for mobile links
-  document.querySelectorAll('.mobile-nav-link[href^="#"]').forEach(link => {
-    link.addEventListener("click", function(e) {
-      e.preventDefault();
-      const targetId = this.getAttribute("href").substring(1);
-      const target = document.getElementById(targetId);
-      if (target) {
-        target.scrollIntoView({ behavior: "smooth" });
-      }
-      toggleMobileMenu();
-    });
-  });
+  // document.querySelectorAll('.mobile-nav-link[href^="#"]').forEach(link => {
+  //   link.addEventListener("click", function(e) {
+  //     e.preventDefault();
+  //     const targetId = this.getAttribute("href").substring(1);
+  //     const target = document.getElementById(targetId);
+  //     if (target) {
+  //       target.scrollIntoView({ behavior: "smooth" });
+  //     }
+  //     toggleMobileMenu();
+  //   });
+  // });
   
   // Close menu on outside click (document level)
-  document.addEventListener("click", function(e) {
-    const hamburger = document.querySelector(".hamburger");
-    const mobileNav = document.querySelector(".mobile-nav");
-    if (mobileNav && mobileNav.classList.contains("active") && 
-        !hamburger.contains(e.target) && !mobileNav.contains(e.target)) {
-      toggleMobileMenu();
-    }
-  });
-});
+  // document.addEventListener("click", function(e) {
+  //   const hamburger = document.querySelector(".hamburger");
+  //   const mobileNav = document.querySelector(".mobile-nav");
+  //   if (mobileNav && mobileNav.classList.contains("active") && 
+  //       !hamburger.contains(e.target) && !mobileNav.contains(e.target)) {
+  //     toggleMobileMenu();
+  //   }
+//   });
+// });
 </xai:function_call]
 
 <xai:function_call name="edit_file">
@@ -513,17 +513,17 @@ document.addEventListener("DOMContentLoaded", function() {
 }
 
 // Smooth scroll for mobile links
-document.querySelectorAll('.mobile-nav-link[href^="#"]').forEach((link) => {
-  link.addEventListener("click", (e) => {
-    e.preventDefault();
-    const targetId = link.getAttribute("href").substring(1);
-    const target = document.getElementById(targetId);
-    if (target) {
-      target.scrollIntoView({ behavior: "smooth" });
-    }
-    toggleMobileMenu(); // Close menu after click
-  });
-});
+document.querySelectorAll('.mobile-nav-link[href^="#"]').forEach((link) => {//
+  // link.addEventListener("click", (e) => {
+  //   e.preventDefault();
+    // const targetId = link.getAttribute("href").substring(1);
+    // const target = document.getElementById(targetId);
+    // if (target) {
+    //   target.scrollIntoView({ behavior: "smooth" });
+    // }
+//     toggleMobileMenu(); // Close menu after click
+//   });
+// });
 
 // ========================================
 // Smooth Scroll for Navigation
