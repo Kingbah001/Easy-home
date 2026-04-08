@@ -47,11 +47,11 @@ body {
     overflow-x: hidden;
 }
 
-/* .container {
+.container {
     max-width: 1200px;
     margin: 0 auto;
     padding: 0 20px;
-} */
+}
 
 a {
     text-decoration: none;
@@ -178,22 +178,6 @@ img {
     background: var(--primary-light);
     transform: translateY(-2px);
     box-shadow: var(--shadow-md);
-}
-
-.hamburger {
-    display: none;
-    flex-direction: column;
-    gap: 5px;
-    cursor: pointer;
-    z-index: 1100;
-}
-
-.hamburger span {
-    width: 25px;
-    height: 3px;
-    background: var(--primary-color);
-    border-radius: 3px;
-    transition: var(--transition);
 }
 
 /* ========================================
@@ -1409,7 +1393,11 @@ img {
 }
 
 .hamburger span {
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    width: 25px;
+    height: 3px;
+    background: var(--primary-color);
+    border-radius: 3px;
+    transition: var(--transition);
 }
 
 .hamburger.active span:nth-child(1) {
